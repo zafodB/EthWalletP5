@@ -2,8 +2,10 @@ package com.example.filip.ethwalletp5.Crypto;
 
 import android.util.Log;
 
+import org.spongycastle.jcajce.provider.digest.Keccak;
 import org.spongycastle.jce.interfaces.ECPrivateKey;
 import org.spongycastle.jce.interfaces.ECPublicKey;
+import org.spongycastle.util.encoders.Hex;
 
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyPairGenerator;
@@ -40,12 +42,12 @@ public class AddressBook {
     }
 
 
-    public int generateAddressPair() {
+    public java.security.KeyPair generateAddressPair() {
         return generateAddresses();
 
     }
 
-    private static int generateAddresses() {
+    private static java.security.KeyPair generateAddresses() {
         try {
             keyPairGenerator.initialize(ecGenSpec, new SecureRandom());
         } catch (InvalidAlgorithmParameterException e) {
@@ -58,18 +60,31 @@ public class AddressBook {
         ECPrivateKey privateKey = (ECPrivateKey) pair.getPrivate();
         ECPublicKey publicKeyExpected = (ECPublicKey) pair.getPublic();
 
-
         System.out.printf("\nPrivate Key D\n\n" + privateKey.getD().toString(16));
 
+        System.out.printf("\nPublic Key generated X\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineXCoord().getEncoded()));
+        System.out.printf("\nPublic Key generated Y\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineYCoord().getEncoded()));
+
+        byte[] publicraw = concatByteArrays(publicKeyExpected.getQ().getAffineXCoord().getEncoded(), publicKeyExpected.getQ().getAffineYCoord().getEncoded());
+
+        Keccak.Digest256 hashed = new Keccak.Digest256();
+
+        byte[] result = hashed.digest(publicraw);
+
+        System.out.printf("\nHashed\n" + Hex.toHexString(result));
+        System.out.println();
 
 
-        }
 
+        return pair;
+    }
 
+    private static byte[] concatByteArrays(byte[] a, byte[] b){
+        byte[] c = new byte[a.length + b.length];
+        System.arraycopy(a, 0, c, 0, a.length);
+        System.arraycopy(b, 0, c, a.length, b.length);
 
-
-
-        return 0;
+        return c;
     }
 
 }

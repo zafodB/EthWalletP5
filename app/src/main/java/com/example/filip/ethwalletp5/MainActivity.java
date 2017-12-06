@@ -6,20 +6,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.spongycastle.jcajce.provider.digest.Keccak;
-import org.spongycastle.jce.ECNamedCurveTable;
-import org.spongycastle.jce.interfaces.ECPrivateKey;
-import org.spongycastle.jce.interfaces.ECPublicKey;
-import org.spongycastle.jce.spec.ECParameterSpec;
-import org.spongycastle.jce.spec.ECPublicKeySpec;
-import org.spongycastle.math.ec.ECPoint;
-import org.spongycastle.util.encoders.Hex;
+import com.example.filip.ethwalletp5.Crypto.AddressBook;
+import com.example.filip.ethwalletp5.Crypto.web3jWrapper;
 
-import java.security.KeyFactory;
-import java.security.KeyPairGenerator;
-import java.security.SecureRandom;
+import java.security.KeyPair;
 import java.security.Security;
-import java.security.spec.ECGenParameterSpec;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
         });
 
@@ -55,28 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
     void doCryptoMagic() throws Exception {
 
+        AddressBook newBook = new AddressBook();
+        KeyPair myKeyPair = newBook.generateAddressPair();
 
-
-
-        System.out.printf("\nPublic Key generated X\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineXCoord().getEncoded()));
-        System.out.printf("\nPublic Key generated Y\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineYCoord().getEncoded()));
-
-        byte[] publicraw = concatByteArrays(publicKeyExpected.getQ().getAffineXCoord().getEncoded(), publicKeyExpected.getQ().getAffineYCoord().getEncoded());
-
-        Keccak.Digest256 hashed = new Keccak.Digest256();
-
-        byte[] result = hashed.digest(publicraw);
-
-        System.out.printf("\nHashed\n" + Hex.toHexString(result));
-        System.out.println();
-
+        System.out.println("11111111111111111111");
+        web3jWrapper.createWallet(myKeyPair, getApplicationContext());
+        System.out.println("2222222222222222222222");
     }
 
-    private byte[] concatByteArrays(byte[] a, byte[] b){
-        byte[] c = new byte[a.length + b.length];
-        System.arraycopy(a, 0, c, 0, a.length);
-        System.arraycopy(b, 0, c, a.length, b.length);
 
-        return c;
-    }
 }
