@@ -31,28 +31,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "You're ugly.", Toast.LENGTH_SHORT).show();
 
-
                 try {
                     System.out.println("Button Pressed");
                     doCryptoMagic();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         });
-
     }
-
 
     void doCryptoMagic() throws Exception {
 
         AddressBook newBook = new AddressBook();
         KeyPair myKeyPair = newBook.generateAddressPair();
 
-        System.out.println("11111111111111111111");
         web3jWrapper.createWallet(myKeyPair, getApplicationContext());
-        System.out.println("2222222222222222222222");
+
+//        TODO If WRAPPER_ERROR, display user message
+//        TODO If WRAPPER_SUCCESS, proceed
+
+
+
     }
 
 

@@ -1,12 +1,8 @@
 package com.example.filip.ethwalletp5.Crypto;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
@@ -14,10 +10,8 @@ import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 
-import java.io.IOException;
-import java.security.KeyPair;
 import java.io.File;
-import java.util.concurrent.ExecutionException;
+import java.security.KeyPair;
 
 /**
  * Created by filip on 06/12/2017.
@@ -26,6 +20,9 @@ import java.util.concurrent.ExecutionException;
 public class web3jWrapper {
 
     static Web3j web3;
+
+    public static final int WRAPPER_ERROR = 44;
+    public static final int WRAPPER_SUCCESS = 45;
 
     static {
         web3 = Web3jFactory.build(new HttpService("https://kovan.infura.io/13umMsrT9rOYIlk9UE8j"));
@@ -41,9 +38,7 @@ public class web3jWrapper {
 
         } catch (Exception e) {
             e.printStackTrace();
-
         }
-
     }
 
 
@@ -51,22 +46,21 @@ public class web3jWrapper {
 
         Log.i(AddressBook.TAG_SECURITY, "1");
 
-        String dir = (Environment.getExternalStorageDirectory() + "/myFile1/test");
-
-
         ECKeyPair ecKeyPair = ECKeyPair.create(keyPair);
+
         try {
-            WalletUtils.generateWalletFile("aaa", ecKeyPair, new File(dir) , true);
+            WalletUtils.generateWalletFile("asdfghjk", ecKeyPair, new File(context.getFilesDir().getPath()) , true);
+
         } catch (Exception e) {
 
             Log.i(AddressBook.TAG_SECURITY, e.getMessage());
             Log.i(AddressBook.TAG_SECURITY, e.getStackTrace().toString());
             e.printStackTrace();
-            return -1;
+            return WRAPPER_ERROR;
         }
 
         Log.i(AddressBook.TAG_SECURITY, "Successfully created wallet.");
-        return 0;
+        return WRAPPER_SUCCESS;
 
 
     }
