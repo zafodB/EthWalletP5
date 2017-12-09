@@ -21,11 +21,15 @@ import java.security.spec.ECGenParameterSpec;
 
 public class AddressBook {
 
+//    TODO resolve static/private acceess etc. How many instances of AddressBook can there be?
+
 
     public static final String TAG_SECURITY = "securt";
 
     private static KeyPairGenerator keyPairGenerator;
     private static ECGenParameterSpec ecGenSpec;
+    private static ECPublicKey publicKeyExpected;
+    private static ECPrivateKey privateKey;
 
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
@@ -57,24 +61,12 @@ public class AddressBook {
         java.security.KeyPair pair = keyPairGenerator.generateKeyPair();
         Log.i(TAG_SECURITY, "KeyPair generated.");
 
-        ECPrivateKey privateKey = (ECPrivateKey) pair.getPrivate();
-        ECPublicKey publicKeyExpected = (ECPublicKey) pair.getPublic();
+        privateKey = (ECPrivateKey) pair.getPrivate();
+        publicKeyExpected = (ECPublicKey) pair.getPublic();
 
         System.out.printf("\nPrivate Key D\n\n" + privateKey.getD().toString(16));
 
-        System.out.printf("\nPublic Key generated X\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineXCoord().getEncoded()));
-        System.out.printf("\nPublic Key generated Y\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineYCoord().getEncoded()));
-
-        byte[] publicraw = concatByteArrays(publicKeyExpected.getQ().getAffineXCoord().getEncoded(), publicKeyExpected.getQ().getAffineYCoord().getEncoded());
-
-        Keccak.Digest256 hashed = new Keccak.Digest256();
-
-        byte[] result = hashed.digest(publicraw);
-
-        System.out.printf("\nHashed\n" + Hex.toHexString(result));
-        System.out.println();
-
-
+        System.out.println(getAddress());
 
         return pair;
     }
@@ -85,6 +77,23 @@ public class AddressBook {
         System.arraycopy(b, 0, c, a.length, b.length);
 
         return c;
+    }
+
+    public static String getAddress(){
+//        System.out.printf("\nPublic Key generated X\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineXCoord().getEncoded()));
+//        System.out.printf("\nPublic Key generated Y\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineYCoord().getEncoded()));
+
+        byte[] publicraw = concatByteArrays(publicKeyExpected.getQ().getAffineXCoord().getEncoded(), publicKeyExpected.getQ().getAffineYCoord().getEncoded());
+
+        Keccak.Digest256 hashed = new Keccak.Digest256();
+
+        byte[] result = hashed.digest(publicraw);
+
+
+        String addressAsString = "0x" + Hex.toHexString(result).substring(24);
+
+
+        return addressAsString;
     }
 
 }

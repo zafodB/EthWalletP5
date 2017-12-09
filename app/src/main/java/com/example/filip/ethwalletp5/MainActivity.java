@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        TODO If WRAPPER_ERROR, display user message
 //        TODO If WRAPPER_SUCCESS, proceed
+//        TODO offload work from main thread
+//        TOdO Display loading dialogs
 
 
 
