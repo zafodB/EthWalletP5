@@ -15,6 +15,10 @@ import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.util.concurrent.ExecutionException;
@@ -35,6 +39,10 @@ public class web3jWrapper {
 
     }
 
+    public static Web3j getInstance(){
+        return web3;
+    }
+
 
     public static void getClientVersion() {
         Web3ClientVersion clientVersion;
@@ -50,12 +58,16 @@ public class web3jWrapper {
 
     public static int createWallet(KeyPair keyPair, Context context) {
 
+        context = context;
+
         Log.i(AddressBook.TAG_SECURITY, "1");
 
         ECKeyPair ecKeyPair = ECKeyPair.create(keyPair);
 
+        String walletFilename;
+
         try {
-            WalletUtils.generateWalletFile("asdfghjk", ecKeyPair, new File(context.getFilesDir().getPath()) , true);
+           walletFilename  = WalletUtils.generateWalletFile("asdfghjk", ecKeyPair, new File(context.getFilesDir().getPath()) , true);
 
         } catch (Exception e) {
 
@@ -64,6 +76,8 @@ public class web3jWrapper {
             e.printStackTrace();
             return WRAPPER_ERROR;
         }
+
+        saveWalletFilename(walletFilename, context);
 
         Log.i(AddressBook.TAG_SECURITY, "Successfully created wallet.");
         return WRAPPER_SUCCESS;
@@ -83,6 +97,7 @@ public class web3jWrapper {
 
 //        RawTransaction rawTrx = RawTransaction.createEtherTransaction(nonce, 50000000010, 22000, )
 
+        System.out.printf("\nNonce for address: %s \nis this: %d\n", AddressBook.getAddress(), nonce);
         return WRAPPER_ERROR;
     }
 
@@ -93,5 +108,34 @@ public class web3jWrapper {
         BigInteger nonce = trxCount.getTransactionCount();
 
         return nonce;
+    }
+
+//    TODO Move to WalletWrapper
+//    TODO Handle multiple wallets
+    private static int saveWalletFilename(String filename, Context context){
+        File wallets = new File (context.getFilesDir().getPath(), "wallets");
+
+        if (!wallets.exists()){
+            try {
+                wallets.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return WRAPPER_ERROR;
+            }
+        }
+
+        try {
+            FileOutputStream outputStream = context.openFileOutput(wallets.getName(), Context.MODE_APPEND);
+            PrintWriter printWriter = new PrintWriter(outputStream);
+            printWriter.write(filename);
+            printWriter.println();
+            printWriter.flush();
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return WRAPPER_ERROR;
+        }
+
+        return WRAPPER_SUCCESS;
     }
 }

@@ -43,10 +43,18 @@ public class MainActivity extends AppCompatActivity {
 
     void doCryptoMagic() throws Exception {
 
+
+//        DISABLED FOR TESTING START
+
         AddressBook newBook = new AddressBook();
         KeyPair myKeyPair = newBook.generateAddressPair();
 
         web3jWrapper.createWallet(myKeyPair, getApplicationContext());
+
+
+//        END
+
+        System.out.println("Result: " + web3jWrapper.sendTransaction());
 
 //        TODO If WRAPPER_ERROR, display user message
 //        TODO If WRAPPER_SUCCESS, proceed
