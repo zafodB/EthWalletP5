@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.filip.ethwalletp5.Crypto.AddressBook;
+import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.Crypto.web3jWrapper;
 
 import java.security.KeyPair;
@@ -44,23 +45,19 @@ public class MainActivity extends AppCompatActivity {
     void doCryptoMagic() throws Exception {
 
 
-//        DISABLED FOR TESTING START
+        KeyPair myKeyPair = AddressBook.generateAddressPair();
 
-        AddressBook newBook = new AddressBook();
-        KeyPair myKeyPair = newBook.generateAddressPair();
+        WalletWrapper.createWallet(myKeyPair, getApplicationContext());
 
-        web3jWrapper.createWallet(myKeyPair, getApplicationContext());
+//
 
+        System.out.println("Result: " + web3jWrapper.sendTransaction(getApplicationContext()));
 
-//        END
-
-        System.out.println("Result: " + web3jWrapper.sendTransaction());
 
 //        TODO If WRAPPER_ERROR, display user message
 //        TODO If WRAPPER_SUCCESS, proceed
 //        TODO offload work from main thread
 //        TOdO Display loading dialogs
-
 
 
     }

@@ -8,6 +8,7 @@ import org.spongycastle.jce.interfaces.ECPublicKey;
 import org.spongycastle.util.encoders.Hex;
 
 import java.security.InvalidAlgorithmParameterException;
+import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -21,14 +22,13 @@ import java.security.spec.ECGenParameterSpec;
 
 public class AddressBook {
 
-//    TODO resolve static/private acceess etc. How many instances of AddressBook can there be?
 
 
     public static final String TAG_SECURITY = "securt";
 
     private static KeyPairGenerator keyPairGenerator;
     private static ECGenParameterSpec ecGenSpec;
-    private static ECPublicKey publicKeyExpected;
+    private static ECPublicKey publicKey;
     private static ECPrivateKey privateKey;
 
     static {
@@ -46,9 +46,8 @@ public class AddressBook {
     }
 
 
-    public java.security.KeyPair generateAddressPair() {
+    public static java.security.KeyPair generateAddressPair() {
         return generateAddresses();
-
     }
 
     private static java.security.KeyPair generateAddresses() {
@@ -62,11 +61,11 @@ public class AddressBook {
         Log.i(TAG_SECURITY, "KeyPair generated.");
 
         privateKey = (ECPrivateKey) pair.getPrivate();
-        publicKeyExpected = (ECPublicKey) pair.getPublic();
+        publicKey = (ECPublicKey) pair.getPublic();
 
-        System.out.printf("\nPrivate Key D\n\n" + privateKey.getD().toString(16));
+//        System.out.printf("\nPrivate Key D\n\n" + privateKey.getD().toString(16));
 
-        System.out.println(getAddress());
+//        System.out.println(getPublicAddress());
 
         return pair;
     }
@@ -79,19 +78,18 @@ public class AddressBook {
         return c;
     }
 
-    public static String getAddress(){
-//        System.out.printf("\nPublic Key generated X\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineXCoord().getEncoded()));
-//        System.out.printf("\nPublic Key generated Y\n" + Hex.toHexString(publicKeyExpected.getQ().getAffineYCoord().getEncoded()));
+    static String getPublicAddress(KeyPair keyPair){
 
-        byte[] publicraw = concatByteArrays(publicKeyExpected.getQ().getAffineXCoord().getEncoded(), publicKeyExpected.getQ().getAffineYCoord().getEncoded());
+        ECPublicKey pubKey = (ECPublicKey) keyPair.getPublic();
 
+        byte[] publicRaw = concatByteArrays(pubKey.getQ().getAffineXCoord().getEncoded(), pubKey.getQ().getAffineYCoord().getEncoded());
         Keccak.Digest256 hashed = new Keccak.Digest256();
 
-        byte[] result = hashed.digest(publicraw);
-
+        byte[] result = hashed.digest(publicRaw);
 
         String addressAsString = "0x" + Hex.toHexString(result).substring(24);
 
+//        System.out.println(addressAsString);
 
         return addressAsString;
     }
