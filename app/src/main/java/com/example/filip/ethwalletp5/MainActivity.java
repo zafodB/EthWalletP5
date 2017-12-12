@@ -1,5 +1,6 @@
 package com.example.filip.ethwalletp5;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,22 +25,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//
+//        Button myButton = findViewById(R.id.button1);
+//
+//        myButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(getApplicationContext(), "You're ugly.", Toast.LENGTH_SHORT).show();
+//
+//                try {
+//                    System.out.println("Button Pressed");
+//                    doCryptoMagic();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
-        Button myButton = findViewById(R.id.button1);
+//        FragmentManager fm = getFragmentManager();
 
-        myButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "You're ugly.", Toast.LENGTH_SHORT).show();
 
-                try {
-                    System.out.println("Button Pressed");
-                    doCryptoMagic();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     void doCryptoMagic() throws Exception {
@@ -47,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         KeyPair myKeyPair = AddressBook.generateAddressPair();
 
-        WalletWrapper.createWallet(myKeyPair, getApplicationContext());
+        //TODO remove test
+        String testname = "test";
+
+        WalletWrapper.createWallet(testname, myKeyPair, getApplicationContext());
 
 //
 

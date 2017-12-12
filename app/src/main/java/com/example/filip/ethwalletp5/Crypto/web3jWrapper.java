@@ -50,7 +50,10 @@ public class web3jWrapper {
 
     public static int sendTransaction(Context context /*, String to*/) {
 
-        Credentials credentials = new WalletWrapper().getWallet(context);
+        String walletname = "test";
+        //TODO remove test
+
+        Credentials credentials = new WalletWrapper().getWallet(context, walletname);
 
 
         BigInteger nonce = getNonce(credentials.getAddress());
