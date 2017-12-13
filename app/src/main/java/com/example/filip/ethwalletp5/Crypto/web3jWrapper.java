@@ -3,12 +3,17 @@ package com.example.filip.ethwalletp5.Crypto;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.filip.ethwalletp5.MainActivity;
+
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
+import org.web3j.crypto.Wallet;
+import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.Web3ClientVersion;
@@ -48,12 +53,12 @@ public class web3jWrapper {
         }
     }
 
-    public static int sendTransaction(Context context /*, String to*/) {
+    public static int sendTransaction(Context context , String to, BigInteger gasPrice, BigInteger value) {
 
-        String walletname = "test";
+        String walletname = "normal";
         //TODO remove test
 
-        Credentials credentials = new WalletWrapper().getWallet(context, walletname);
+        Credentials credentials = new WalletWrapper().getWallet(context, walletname, MainActivity.getUserPin());
 
 
         BigInteger nonce = getNonce(credentials.getAddress());
@@ -65,13 +70,18 @@ public class web3jWrapper {
 
         System.out.printf("\nNonce for address: %s \nis this: %d\n", credentials.getAddress(), nonce);
 
-        BigInteger gasPrice = new BigInteger("20000000000");
+//        TODO Remove Test
+        BigInteger sGasPrice = new BigInteger("20000000000");
+        String recipientAddr = "0xC589a27fCC1b1De994cEE8910c33FF74E2Dd649E";
+//        TEST END
+
+//        BigInteger sGasPrice = gasPrice;
         BigInteger gasLimit = new BigInteger("400000");
-        String to = "0xC589a27fCC1b1De994cEE8910c33FF74E2Dd649E";
-        BigInteger value = new BigInteger("3500000000");
+//        String recipientAddr = to;
+//        BigInteger value = new BigInteger("3500000000");
 
 
-        RawTransaction rawTrx = RawTransaction.createEtherTransaction(nonce, gasPrice, gasLimit, to, value);
+        RawTransaction rawTrx = RawTransaction.createEtherTransaction(nonce, sGasPrice, gasLimit, recipientAddr, value);
 
         byte[] signedMessage = TransactionEncoder.signMessage(rawTrx, credentials);
         String hexMessage = Numeric.toHexString(signedMessage);
@@ -115,4 +125,22 @@ public class web3jWrapper {
         }
     }
 
+    public static BigInteger getBallance(Context context, String walletName, String password){
+
+        WalletWrapper walletWrapper = new WalletWrapper();
+        Credentials creds = walletWrapper.getWallet(context,walletName, password);
+        String address = creds.getAddress();
+
+        try {
+            EthGetBalance ethBalance = web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get();
+            return ethBalance.getBalance();
+
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+//            TODO Add some user warning around this
+            System.out.println("Could not load wallets");
+            return null;
+        }
+
+    }
 }

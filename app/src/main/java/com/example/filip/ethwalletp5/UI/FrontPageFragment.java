@@ -25,15 +25,16 @@ import java.util.ArrayList;
 
 public class FrontPageFragment extends Fragment {
 
-    static String[] walletnames = {"test", "normal", "another test", "yet another test"};
+    //    static String[] walletnames = {"test", "normal", "another test", "yet another test"};
+    ArrayList<String> wallets;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.front_page_fragment, null);
+        View view = inflater.inflate(R.layout.front_page_fragment, container, false);
 
-        ArrayList<String> wallets = WalletWrapper.getWalletNames(getContext());
+        wallets = WalletWrapper.getWalletNames(getContext());
 
         ListAdapter adapter;
 
@@ -54,19 +55,16 @@ public class FrontPageFragment extends Fragment {
                     WalletWrapper walletWrapper = new WalletWrapper();
 
                     try {
-
-                        Toast.makeText(getContext(), walletWrapper.getWalletFilename(getContext(), walletnames[i]), Toast.LENGTH_LONG).show();
-
+                        Toast.makeText(getContext(), walletWrapper.getWalletFilename(getContext(), wallets.get(i)), Toast.LENGTH_SHORT).show();
 
                         Bundle args = new Bundle();
-                        args.putString("name", walletnames[i]);
+                        args.putString("name", wallets.get(i));
 
                         Fragment walletOpenFragment = new WalletOpenFragment();
                         walletOpenFragment.setArguments(args);
 
-                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger)getActivity();
+                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
                         changer.ChangeFragments(walletOpenFragment);
-
 
                     } catch (IOException e) {
                         e.printStackTrace();

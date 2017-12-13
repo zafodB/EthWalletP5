@@ -12,7 +12,7 @@
         tools:layout_editor_absoluteY="8dp">
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/to_address_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -25,31 +25,31 @@
             tools:text="0xC589a27fCC1b1De994cEE8910c33FF74E2Dd649E" />
 
         <EditText
-            android:id="@+id/editText5"
+            android:id="@+id/gas_price_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/editText6"
-            android:layout_below="@+id/editText3"
+            android:layout_alignStart="@+id/amount_field"
+            android:layout_below="@+id/to_address_field"
             android:layout_marginTop="32dp"
             android:ems="10"
             android:hint="Gas Price (20 GWEI)"
             android:inputType="number" />
 
         <EditText
-            android:id="@+id/editText6"
+            android:id="@+id/amount_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editText5"
+            android:layout_below="@+id/gas_price_field"
             android:layout_centerHorizontal="true"
             android:ems="10"
-            android:hint="Ammount"
+            android:hint="Amount"
             android:inputType="numberDecimal" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/send_out_tx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/editText6"
+            android:layout_below="@+id/amount_field"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="41dp"
             android:text="Send" />

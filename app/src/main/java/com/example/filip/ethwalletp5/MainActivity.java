@@ -21,6 +21,8 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
         System.out.println("Added security provider");
     }
 
+    private static String userPin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
 
 //        FragmentManager fm = getFragmentManager();
 
+        userPin = "asdfghjk";
 
     }
 
@@ -76,7 +79,7 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
 
 //
 
-        System.out.println("Result: " + web3jWrapper.sendTransaction(getApplicationContext()));
+//        System.out.println("Result: " + web3jWrapper.sendTransaction(getApplicationContext()));
 
 
 //        TODO If WRAPPER_ERROR, display user message
@@ -85,6 +88,10 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
 //        TOdO Display loading dialogs
 
 
+    }
+
+    public static String getUserPin(){
+        return userPin;
     }
 
 
