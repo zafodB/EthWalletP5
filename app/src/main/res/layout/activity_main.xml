@@ -12,10 +12,6 @@
         android:layout_height="match_parent"
        >
 
-        <fragment
-            android:id="@+id/fragment"
-            android:name="com.example.filip.ethwalletp5.UI.FrontPageFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>

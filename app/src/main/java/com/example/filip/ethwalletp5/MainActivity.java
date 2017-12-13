@@ -1,20 +1,20 @@
 package com.example.filip.ethwalletp5;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.filip.ethwalletp5.Crypto.AddressBook;
 import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.Crypto.web3jWrapper;
+import com.example.filip.ethwalletp5.UI.FrontPageFragment;
 
 import java.security.KeyPair;
 import java.security.Security;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity implements FragmentChangerClass.FragmentChanger {
 
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
@@ -25,7 +25,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//
+
+        FrontPageFragment frontPageFrag = new FrontPageFragment();
+
+        getFragmentManager().beginTransaction()
+                .addToBackStack(frontPageFrag.toString())
+                .replace(R.id.fragment_container, frontPageFrag).commit();
+//        }
+
 //        Button myButton = findViewById(R.id.button1);
 //
 //        myButton.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +52,16 @@ public class MainActivity extends AppCompatActivity {
 //        FragmentManager fm = getFragmentManager();
 
 
+    }
+
+    @Override
+    public void ChangeFragments(Fragment newFragment) {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction
+                .replace(R.id.fragment_container, newFragment)
+                .addToBackStack(newFragment.toString())
+                .commit();
     }
 
     void doCryptoMagic() throws Exception {
