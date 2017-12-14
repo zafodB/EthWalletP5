@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
 
 public class web3jWrapper {
 
-    static Web3j web3;
+    final static Web3j web3;
 
     public static final int WRAPPER_ERROR = 44;
     public static final int WRAPPER_SUCCESS = 45;
@@ -94,7 +94,7 @@ public class web3jWrapper {
 
             String txHash = ethSendTx.getTransactionHash();
 
-//            TODO if implement, there is an error with the message
+//            TODO implement if, there is an error with the message
             System.out.println("Transaction hash is:" + txHash);
 
             return WRAPPER_SUCCESS;

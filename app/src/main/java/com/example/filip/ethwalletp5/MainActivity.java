@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.example.filip.ethwalletp5.Crypto.AddressBook;
 import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.Crypto.web3jWrapper;
+import com.example.filip.ethwalletp5.UI.EnterPinFragment;
 import com.example.filip.ethwalletp5.UI.FrontPageFragment;
 
 import java.security.KeyPair;
@@ -28,11 +29,13 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FrontPageFragment frontPageFrag = new FrontPageFragment();
+
+        EnterPinFragment enterPinFrag = new EnterPinFragment();
+
 
         getFragmentManager().beginTransaction()
-                .addToBackStack(frontPageFrag.toString())
-                .replace(R.id.fragment_container, frontPageFrag).commit();
+                .addToBackStack(enterPinFrag.toString())
+                .replace(R.id.fragment_container, enterPinFrag).commit();
 //        }
 
 //        Button myButton = findViewById(R.id.button1);

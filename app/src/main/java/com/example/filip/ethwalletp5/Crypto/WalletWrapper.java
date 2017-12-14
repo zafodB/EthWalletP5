@@ -164,8 +164,11 @@ public class WalletWrapper {
                 reader.readLine();
                 start = reader.readLine();
             }
+
+            in.close();
             return walletNames;
         } catch (IOException e) {
+
             System.out.println("Could not load wallet names.");
             Log.e(AddressBook.TAG_SECURITY, "Could not load wallet names.");
             return null;
