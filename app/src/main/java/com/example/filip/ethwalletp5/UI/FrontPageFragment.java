@@ -76,6 +76,7 @@ public class FrontPageFragment extends Fragment {
             });
         }
 
+        // TODO: if backup already created display 'Restore wallet' option
         createBackupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

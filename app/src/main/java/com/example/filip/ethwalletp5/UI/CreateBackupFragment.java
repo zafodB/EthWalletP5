@@ -12,8 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.filip.ethwalletp5.FragmentChangerClass;
+import com.example.filip.ethwalletp5.API.APIClient;
+import com.example.filip.ethwalletp5.API.APIInterface;
+import com.example.filip.ethwalletp5.API.Models;
 import com.example.filip.ethwalletp5.R;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CreateBackupFragment extends Fragment{
@@ -37,18 +43,15 @@ public class CreateBackupFragment extends Fragment{
                 // TODO: hash email and email+pass and get encrypted private key
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
+                String encryptedKey = "hw89qhd129102hd0i";
 
-                // TODO: Email validation
+                // TODO: Email and password validation
                 if (email.length() < 1){
                     System.out.println("No email provided");
                 } else {
-                    confirmBackupCreation(email, password);
-//                    Toast.makeText(getContext(), email + ' ' + password, Toast.LENGTH_SHORT).show();
-                    // TODO: POST https://eth-wallet-api.herokuapp.com/users/
-//                    FrontPageFragment frontPageFrag = new FrontPageFragment();
-//
-//                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-//                    changer.ChangeFragments(frontPageFrag);
+                    // TODO: how to know if dialog was confirmed?
+                    showConfirmationDialog(email, password);
+                    sendBackup(email, password, encryptedKey);
                 }
             }
         });
@@ -56,15 +59,15 @@ public class CreateBackupFragment extends Fragment{
         return view;
     }
 
-    private void confirmBackupCreation(String email, String password) {
+    private void showConfirmationDialog(String email, String password) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Confirm backup details");
         builder.setMessage("Make sure entered details are right before confirm\n\n" + "Email - " + email + "\nPassword - " + password);
-        builder.setCancelable(true);
+        builder.setCancelable(false);
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getActivity(), "Backup sent to database!", Toast.LENGTH_SHORT).show();
+                // TODO: implement API call after confirm
             }
         });
 
@@ -76,5 +79,32 @@ public class CreateBackupFragment extends Fragment{
         });
 
         builder.show();
+    }
+
+    private void sendBackup(String emailHash, String emailPassHash, String encryptedKey) {
+        Models.Backup backup = new Models.Backup();
+        backup.setId(emailHash);
+        backup.setPassword(emailPassHash);
+        backup.setEncryptedKey(encryptedKey);
+
+        APIInterface service = APIClient.getInstance();
+        Call<Models.Backup> call = service.createBackup(backup);
+
+        call.enqueue(new Callback<Models.Backup>() {
+            @Override
+            public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
+                if (response.code() == 201) {
+                    Toast.makeText(getActivity(), "Backup successfully saved in the database!" + "\t" + response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    // TODO: handle response
+                    Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Models.Backup> call, Throwable t) {
+                Toast.makeText(getActivity(), "Failed" + "\t" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
