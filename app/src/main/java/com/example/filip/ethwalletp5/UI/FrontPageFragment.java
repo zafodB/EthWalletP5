@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.widget.Button;
 
 import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.FragmentChangerClass;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
  */
 
 public class FrontPageFragment extends Fragment {
+    Button createBackupBtn;
 
     //    static String[] walletnames = {"test", "normal", "another test", "yet another test"};
     ArrayList<String> wallets;
@@ -34,6 +36,7 @@ public class FrontPageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.front_page_fragment, container, false);
 
+        createBackupBtn = view.findViewById(R.id.createBackupBtn);
         wallets = WalletWrapper.getWalletNames(getContext());
 
         ListAdapter adapter;
@@ -72,6 +75,15 @@ public class FrontPageFragment extends Fragment {
                 }
             });
         }
+
+        createBackupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment createBackupFragment = new CreateBackupFragment();
+                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                changer.ChangeFragments(createBackupFragment);
+            }
+        });
 
         return view;
     }
