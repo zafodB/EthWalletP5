@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.FragmentChangerClass;
 import com.example.filip.ethwalletp5.R;
 
@@ -39,8 +40,13 @@ public class EnterPinFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 CreatePinFragment createPinFrag = new CreatePinFragment();
-                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-                changer.ChangeFragments(createPinFrag);
+
+                WalletWrapper walletWrapper = new WalletWrapper();
+                System.out.println(walletWrapper.getWalletFileAsString(getContext(), "normal"));
+
+//                Disabled for test
+//                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+//                changer.ChangeFragments(createPinFrag);
             }
         });
 
