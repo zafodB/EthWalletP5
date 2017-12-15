@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.filip.ethwalletp5.API.APIClient;
 import com.example.filip.ethwalletp5.API.APIInterface;
 import com.example.filip.ethwalletp5.API.Models;
+import com.example.filip.ethwalletp5.Crypto.Hash;
 import com.example.filip.ethwalletp5.R;
 
 import retrofit2.Call;
@@ -40,9 +41,9 @@ public class CreateBackupFragment extends Fragment{
         createBackupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: hash email and email+pass and get encrypted private key
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
+                // TODO: get encrypted key
                 String encryptedKey = "hw89qhd129102hd0i";
 
                 // TODO: Email and password validation
@@ -51,7 +52,10 @@ public class CreateBackupFragment extends Fragment{
                 } else {
                     // TODO: how to know if dialog was confirmed?
                     showConfirmationDialog(email, password);
-                    sendBackup(email, password, encryptedKey);
+
+                    String emailHash = Hash.stringHash(email);
+                    String emailPassHash = Hash.stringHash(email + password);
+                    sendBackup(emailHash, emailPassHash, encryptedKey);
                 }
             }
         });
@@ -96,7 +100,7 @@ public class CreateBackupFragment extends Fragment{
                 if (response.code() == 201) {
                     Toast.makeText(getActivity(), "Backup successfully saved in the database!" + "\t" + response.code(), Toast.LENGTH_SHORT).show();
                 } else {
-                    // TODO: handle response
+                    // TODO: handle response (fail or update?)
                     Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
             }
