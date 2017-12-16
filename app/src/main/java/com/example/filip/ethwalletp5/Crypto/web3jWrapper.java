@@ -8,8 +8,6 @@ import com.example.filip.ethwalletp5.MainActivity;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
-import org.web3j.crypto.Wallet;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.Web3jFactory;
 import org.web3j.protocol.core.DefaultBlockParameterName;
@@ -58,7 +56,7 @@ public class web3jWrapper {
         String walletname = "normal";
         //TODO remove test
 
-        Credentials credentials = new WalletWrapper().getWallet(context, walletname, MainActivity.getUserPin());
+        Credentials credentials = new WalletWrapper().getWalletCredentials(context, walletname, MainActivity.getUserPin());
 
 
         BigInteger nonce = getNonce(credentials.getAddress());
@@ -128,7 +126,7 @@ public class web3jWrapper {
     public static BigInteger getBallance(Context context, String walletName, String password){
 
         WalletWrapper walletWrapper = new WalletWrapper();
-        Credentials creds = walletWrapper.getWallet(context,walletName, password);
+        Credentials creds = walletWrapper.getWalletCredentials(context,walletName, password);
         String address = creds.getAddress();
 
         try {

@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -35,9 +36,13 @@ public class FrontPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.front_page_fragment, container, false);
+      
+       
+      createBackupBtn = view.findViewById(R.id.createBackupBtn);
 
-        createBackupBtn = view.findViewById(R.id.createBackupBtn);
-        wallets = WalletWrapper.getWalletNames(getContext());
+   Button createNewWalletBtn = view.findViewById(R.id.create_new_wallet_btn);      
+  
+  wallets = WalletWrapper.getWalletNames(getContext());
 
         ListAdapter adapter;
 
@@ -47,7 +52,7 @@ public class FrontPageFragment extends Fragment {
         } else {
             adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, wallets);
 
-            ListView walletsList = view.findViewById(R.id.listWallets);
+            ListView walletsList = view.findViewById(R.id.list_wallets);
             walletsList.setAdapter(adapter);
 
             walletsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,6 +81,7 @@ public class FrontPageFragment extends Fragment {
             });
         }
 
+
         // TODO: if backup already created display 'Restore wallet' option
         createBackupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +91,21 @@ public class FrontPageFragment extends Fragment {
                 changer.ChangeFragments(createBackupFragment);
             }
         });
+
+
+        createNewWalletBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateWalletFragment createWalletFrag = new CreateWalletFragment();
+
+                FragmentChangerClass.FragmentChanger fragmentChanger = (FragmentChangerClass.FragmentChanger) getActivity();
+
+                fragmentChanger.ChangeFragments(createWalletFrag);
+            }
+        });
+
+
+
 
         return view;
     }

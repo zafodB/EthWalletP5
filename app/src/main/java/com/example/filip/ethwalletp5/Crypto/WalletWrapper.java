@@ -3,6 +3,8 @@ package com.example.filip.ethwalletp5.Crypto;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.filip.ethwalletp5.MainActivity;
+
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
@@ -11,6 +13,7 @@ import org.web3j.protocol.core.methods.response.EthGetBalance;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,8 +42,10 @@ public class WalletWrapper {
 
         String walletFilename;
 
+        String password = MainActivity.getUserPin();
+
         try {
-            walletFilename = WalletUtils.generateWalletFile("asdfghjk", ecKeyPair, new File(context.getFilesDir().getPath()), true);
+            walletFilename = WalletUtils.generateWalletFile(password, ecKeyPair, new File(context.getFilesDir().getPath()), true);
 
         } catch (Exception e) {
 
@@ -104,7 +109,7 @@ public class WalletWrapper {
         return web3jWrapper.WRAPPER_SUCCESS;
     }
 
-    public Credentials getWallet(Context context, String walletname, String password) {
+    public Credentials getWalletCredentials(Context context, String walletname, String password) {
 
 //        web3jWrapper.getInstance();
         String walletFilename;
@@ -120,8 +125,6 @@ public class WalletWrapper {
         }
 
         return walletCreds;
-
-
     }
 
     public String getWalletFilename(Context context, String walletName) throws IOException {
@@ -180,5 +183,42 @@ public class WalletWrapper {
         return WALLET_WRAPPER_ERROR;
     }
 
+    public String getWalletFileAsString(Context context , String walletName){
+
+        try {
+            InputStream in = context.openFileInput(getWalletFilename(context, walletName));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+
+            return reader.readLine();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public int saveWalletFileFromString(Context context, String walletFile, String walletName){
+
+        String fileName = "ImportedWallet" + String.valueOf(System.currentTimeMillis());
+
+        File wallet = new File(context.getFilesDir().getPath(), fileName);
+
+        try {
+            FileOutputStream outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+            PrintWriter writer = new PrintWriter(outputStream);
+
+            writer.write(walletFile);
+            writer.flush();
+            writer.close();
+
+            saveWalletFilename(walletName, fileName, context);
+
+            return WALLET_WRAPPER_SUCCESS;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return WALLET_WRAPPER_ERROR;
+        }
+    }
 
 }
