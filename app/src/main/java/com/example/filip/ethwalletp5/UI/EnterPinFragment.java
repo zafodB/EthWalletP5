@@ -14,7 +14,6 @@ import com.example.filip.ethwalletp5.FragmentChangerClass;
 import com.example.filip.ethwalletp5.R;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
