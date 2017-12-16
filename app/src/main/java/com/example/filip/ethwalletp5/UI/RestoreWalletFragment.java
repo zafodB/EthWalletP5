@@ -68,7 +68,8 @@ public class RestoreWalletFragment extends Fragment {
         call.enqueue(new Callback<Models.Backup>() {
             @Override
             public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
-                System.out.println(response.body());
+                String encryptedWalletFile = response.body().getWallet_file();
+                Toast.makeText(getActivity(), "Wallet file - " + "\t" + encryptedWalletFile, Toast.LENGTH_SHORT).show();
             }
 
             @Override

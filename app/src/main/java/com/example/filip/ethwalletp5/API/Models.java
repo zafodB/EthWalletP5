@@ -31,5 +31,9 @@ public class Models {
         public void setWalletFile(String walletFile) {
             this.wallet_file = walletFile;
         }
+
+        public String getWallet_file() {
+            return wallet_file;
+        }
     }
 }
