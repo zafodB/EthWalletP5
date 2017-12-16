@@ -7,7 +7,7 @@ public class Models {
     public static class Backup extends Models {
         @SerializedName("id") String id;
         @SerializedName("password") String password;
-        @SerializedName("priv_key") String encryptedKey;
+        @SerializedName("wallet_file") String walletFileAsString;
 
         public void setId(String id) {
             this.id = id;
@@ -17,8 +17,8 @@ public class Models {
             this.password = password;
         }
 
-        public void setEncryptedKey(String encryptedKey) {
-            this.encryptedKey = encryptedKey;
+        public void setWalletFileAsString(String walletFileAsString) {
+            this.walletFileAsString = walletFileAsString;
         }
     }
 }
