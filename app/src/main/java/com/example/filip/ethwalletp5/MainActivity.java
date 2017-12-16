@@ -6,13 +6,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import com.example.filip.ethwalletp5.Crypto.AddressBook;
-import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
-import com.example.filip.ethwalletp5.Crypto.web3jWrapper;
 import com.example.filip.ethwalletp5.UI.EnterPinFragment;
-import com.example.filip.ethwalletp5.UI.FrontPageFragment;
 
-import java.security.KeyPair;
 import java.security.Security;
 
 public class MainActivity extends Activity implements FragmentChangerClass.FragmentChanger {

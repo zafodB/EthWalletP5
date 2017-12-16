@@ -9,7 +9,6 @@ import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.core.methods.response.EthGetBalance;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.math.BigInteger;
 import java.security.KeyPair;
 import java.util.ArrayList;
 
@@ -76,7 +74,7 @@ public class WalletWrapper {
         }
 
         try {
-            FileOutputStream outputStream = context.openFileOutput(wallets.getName(), Context.MODE_APPEND);
+            FileOutputStream outputStream = context.openFileOutput(wallets.getName(), Context.MODE_PRIVATE | Context.MODE_APPEND);
             PrintWriter printWriter = new PrintWriter(outputStream);
 
             printWriter.write(walletName);
