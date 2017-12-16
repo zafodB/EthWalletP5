@@ -36,7 +36,6 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/textView2"/>
 
-
         <Button
             android:id="@+id/create_new_wallet_btn"
             android:layout_width="wrap_content"
@@ -47,6 +46,15 @@
             android:text="Or create a new one!"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/restore_wallet_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Restore Wallet"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/create_new_wallet_btn"
+            android:textAllCaps="false" />
 
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

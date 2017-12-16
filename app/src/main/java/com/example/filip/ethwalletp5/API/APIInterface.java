@@ -12,6 +12,8 @@ public interface APIInterface {
     @POST("/users/")
     Call<Models.Backup> createBackup(@Body Models.Backup backup);
 
-    // TODO: implement restore backup endpoint
+    @Headers("Content-Type:application/json")
+    @POST("/users/restore")
+    Call<Models.Backup> restoreWallet(@Body Models.Backup backup);
 }
 

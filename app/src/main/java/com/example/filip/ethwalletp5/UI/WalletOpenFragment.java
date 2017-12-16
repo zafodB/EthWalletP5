@@ -107,7 +107,7 @@ public class WalletOpenFragment extends Fragment {
         return view;
     }
 
-    String balanceToString(BigInteger balance){
+    String balanceToString(BigInteger balance) {
 
         BigDecimal divisor = new BigDecimal("1000000000000000000");
         BigDecimal balanceD = new BigDecimal(balance);

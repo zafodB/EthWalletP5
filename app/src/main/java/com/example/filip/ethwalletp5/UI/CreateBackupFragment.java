@@ -57,15 +57,13 @@ public class CreateBackupFragment extends Fragment {
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
 
-                // TODO: get encrypted key
                 WalletWrapper walletWrapper = new WalletWrapper();
-
 
 //                String encryptedKey = walletWrapper.getWalletFileAsString(getContext(), walletName);
                 String pin = MainActivity.getUserPin();
 
                 String tempWalletName = walletWrapper.reencryptWallet(getContext(), walletName, pin, password);
-                String encryptedKey = walletWrapper.getWalletFileAsString(getContext(), tempWalletName);
+                String walletFileAsString = walletWrapper.getWalletFileAsString(getContext(), tempWalletName);
                 File tempFile = new File(getContext().getCacheDir().getPath() + tempWalletName);
                 tempFile.delete();
 
@@ -78,7 +76,7 @@ public class CreateBackupFragment extends Fragment {
 
                     String emailHash = Hash.stringHash(email);
                     String emailPassHash = Hash.stringHash(email + password);
-                    sendBackup(emailHash, emailPassHash, encryptedKey);
+                    sendBackup(emailHash, emailPassHash, walletFileAsString);
                 }
             }
         });
@@ -108,11 +106,8 @@ public class CreateBackupFragment extends Fragment {
         builder.show();
     }
 
-    private void sendBackup(String emailHash, String emailPassHash, String encryptedKey) {
-        Models.Backup backup = new Models.Backup();
-        backup.setId(emailHash);
-        backup.setPassword(emailPassHash);
-        backup.setWalletFileAsString(encryptedKey);
+    private void sendBackup(String emailHash, String emailPassHash, String walletFileAsString) {
+        Models.Backup backup = new Models.Backup(emailHash, emailPassHash, walletFileAsString);
 
         APIInterface service = APIClient.getInstance();
         Call<Models.Backup> call = service.createBackup(backup);
@@ -121,9 +116,7 @@ public class CreateBackupFragment extends Fragment {
             @Override
             public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
                 if (response.code() == 201) {
-
-                    System.out.println("Ahooooooj");
-// Toast.makeText(getActivity(), "Backup successfully saved in the database!" + "\t" + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Backup successfully saved in the database!" + "\t" + response.code(), Toast.LENGTH_SHORT).show();
                 } else {
                     // TODO: handle response (fail or update?)
                     Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.Button;
 
 import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.FragmentChangerClass;
@@ -26,7 +25,8 @@ import java.util.ArrayList;
  */
 
 public class FrontPageFragment extends Fragment {
-
+    Button createNewWalletBtn;
+    Button restoreWalletBtn;
 
     //    static String[] walletnames = {"test", "normal", "another test", "yet another test"};
     ArrayList<String> wallets;
@@ -37,10 +37,11 @@ public class FrontPageFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.front_page_fragment, container, false);
 
+        createNewWalletBtn = view.findViewById(R.id.create_new_wallet_btn);
+        restoreWalletBtn = view.findViewById(R.id.restore_wallet_button);
 
-   Button createNewWalletBtn = view.findViewById(R.id.create_new_wallet_btn);      
-  
-  wallets = WalletWrapper.getWalletNames(getContext());
+
+        wallets = WalletWrapper.getWalletNames(getContext());
 
         ListAdapter adapter;
 
@@ -79,7 +80,6 @@ public class FrontPageFragment extends Fragment {
             });
         }
 
-
         createNewWalletBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,8 +91,14 @@ public class FrontPageFragment extends Fragment {
             }
         });
 
-
-
+        restoreWalletBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment restoreWalletFragment = new RestoreWalletFragment();
+                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                changer.ChangeFragments(restoreWalletFragment);
+            }
+        });
 
         return view;
     }
