@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.FragmentChangerClass;
+import com.example.filip.ethwalletp5.MainActivity;
 import com.example.filip.ethwalletp5.R;
 
 import java.io.BufferedReader;
@@ -52,15 +53,18 @@ public class EnterPinFragment extends Fragment {
         singInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               if (!verifyPin(enterPin.getText().toString())){
+                String pin = enterPin.getText().toString();
+               if (!verifyPin(pin)){
                    System.out.println("Pin is wrong or there has been an error");
                    enterPin.setText("");
                }else {
+                   MainActivity.setUserPin(pin);
+
                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
 
-                   FrontPageFragment fronPageFrag = new FrontPageFragment();
+                   FrontPageFragment frontPageFrag = new FrontPageFragment();
 
-                   changer.ChangeFragments(fronPageFrag);
+                   changer.ChangeFragments(frontPageFrag);
                }
             }
         });

@@ -26,7 +26,7 @@ import java.util.ArrayList;
  */
 
 public class FrontPageFragment extends Fragment {
-    Button createBackupBtn;
+
 
     //    static String[] walletnames = {"test", "normal", "another test", "yet another test"};
     ArrayList<String> wallets;
@@ -36,9 +36,7 @@ public class FrontPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.front_page_fragment, container, false);
-      
-       
-      createBackupBtn = view.findViewById(R.id.createBackupBtn);
+
 
    Button createNewWalletBtn = view.findViewById(R.id.create_new_wallet_btn);      
   
@@ -80,17 +78,6 @@ public class FrontPageFragment extends Fragment {
                 }
             });
         }
-
-
-        // TODO: if backup already created display 'Restore wallet' option
-        createBackupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment createBackupFragment = new CreateBackupFragment();
-                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-                changer.ChangeFragments(createBackupFragment);
-            }
-        });
 
 
         createNewWalletBtn.setOnClickListener(new View.OnClickListener() {

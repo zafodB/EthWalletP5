@@ -4,10 +4,13 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.filip.ethwalletp5.MainActivity;
+import com.example.filip.ethwalletp5.UI.CreateWalletFragment;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Wallet;
+import org.web3j.crypto.WalletFile;
 import org.web3j.crypto.WalletUtils;
 
 import java.io.BufferedReader;
@@ -181,10 +184,10 @@ public class WalletWrapper {
         return WALLET_WRAPPER_ERROR;
     }
 
-    public String getWalletFileAsString(Context context , String walletName){
+    public String getWalletFileAsString(Context context , String walletFile){
 
         try {
-            InputStream in = context.openFileInput(getWalletFilename(context, walletName));
+            InputStream in = context.openFileInput(walletFile);
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
             return reader.readLine();
@@ -218,5 +221,31 @@ public class WalletWrapper {
             return WALLET_WRAPPER_ERROR;
         }
     }
+
+    public String reencryptWallet(Context context, String walletName, String oldPass, String newPass){
+
+        try {
+            String walletFileName = getWalletFilename(context, walletName);
+
+            Credentials walletCreds = WalletUtils.loadCredentials(oldPass, context.getFilesDir().getPath() + "/" + walletFileName);
+            ECKeyPair keyPair = walletCreds.getEcKeyPair();
+
+            return WalletUtils.generateWalletFile(newPass, keyPair, context.getFilesDir(), true);
+        }
+        catch (IOException | CipherException e){
+            e.printStackTrace();
+//            TODO error handling;
+            return null;
+        }
+    }
+
+//    void test(){
+//        WalletUtils wu = new WalletUtils();
+//        WalletFile wf = new WalletFile();
+//        wf.getAddress();
+//
+//        Wallet.
+//
+//    }
 
 }

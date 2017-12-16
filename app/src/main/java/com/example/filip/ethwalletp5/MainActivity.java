@@ -51,7 +51,7 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
 
 //        FragmentManager fm = getFragmentManager();
 
-        userPin = "asdfghjk";
+//        userPin = "asdfghjk";
 
     }
 
@@ -86,5 +86,8 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
         return userPin;
     }
 
+    public static void setUserPin(String pin){
+        userPin = pin;
+    }
 
 }

@@ -33,6 +33,9 @@ public class WalletOpenFragment extends Fragment {
 
     String walletName;
 
+    Button createBackupBtn;
+
+
     @Override
     public void setArguments(Bundle args) {
         walletName = args.getString("name");
@@ -45,12 +48,14 @@ public class WalletOpenFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.wallet_open_fragment, container, false);
 
+        createBackupBtn = view.findViewById(R.id.createBackupBtn);
+
         TextView walletNameText = view.findViewById(R.id.wallet_name_textview);
         walletNameText.setText(walletName);
 
         TextView walletBalance = view.findViewById(R.id.eth_balance_textview);
 //        TODO add loading dialog
-        walletBalance.setText(balanceToString(web3jWrapper.getBallance(getContext(), walletName, MainActivity.getUserPin())));
+//        walletBalance.setText(balanceToString(web3jWrapper.getBallance(getContext(), walletName, MainActivity.getUserPin())));
 
         Button sendTransactionBtn = view.findViewById(R.id.send_transaction_button);
         sendTransactionBtn.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +85,22 @@ public class WalletOpenFragment extends Fragment {
 //                } catch (NoSuchAlgorithmException e) {
 //                    e.printStackTrace();
 //                }
+            }
+        });
+
+
+        // TODO: if backup already created display 'Restore wallet' option
+        createBackupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment createBackupFragment = new CreateBackupFragment();
+                Bundle args = new Bundle();
+                args.putString("name", walletName);
+
+                createBackupFragment.setArguments(args);
+
+                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                changer.ChangeFragments(createBackupFragment);
             }
         });
 
