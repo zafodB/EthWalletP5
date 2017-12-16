@@ -16,6 +16,7 @@ import com.example.filip.ethwalletp5.API.APIClient;
 import com.example.filip.ethwalletp5.API.APIInterface;
 import com.example.filip.ethwalletp5.API.Models;
 import com.example.filip.ethwalletp5.Crypto.Hash;
+import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.R;
 
 import retrofit2.Call;
@@ -68,8 +69,13 @@ public class RestoreWalletFragment extends Fragment {
         call.enqueue(new Callback<Models.Backup>() {
             @Override
             public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
-                String encryptedWalletFile = response.body().getWallet_file();
-                Toast.makeText(getActivity(), "Wallet file - " + "\t" + encryptedWalletFile, Toast.LENGTH_SHORT).show();
+                if (response.code() == 201) {
+                    String encryptedWalletFile = response.body().getWallet_file();
+                    WalletWrapper walletWrapper = new WalletWrapper();
+                    walletWrapper.saveWalletFileFromString(getContext(), encryptedWalletFile, "Restored Wallet");
+                } else {
+                    Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override

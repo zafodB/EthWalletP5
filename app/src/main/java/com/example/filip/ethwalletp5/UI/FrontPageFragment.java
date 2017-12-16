@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.Button;
 
 import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.FragmentChangerClass;
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 
 public class FrontPageFragment extends Fragment {
     Button createNewWalletBtn;
-    Button createBackupBtn;
     Button restoreWalletBtn;
 
     //    static String[] walletnames = {"test", "normal", "another test", "yet another test"};
@@ -38,10 +36,10 @@ public class FrontPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.front_page_fragment, container, false);
-       
+
         createNewWalletBtn = view.findViewById(R.id.create_new_wallet_btn);
-        createBackupBtn = view.findViewById(R.id.createBackupBtn);
         restoreWalletBtn = view.findViewById(R.id.restore_wallet_button);
+
 
         wallets = WalletWrapper.getWalletNames(getContext());
 
@@ -90,16 +88,6 @@ public class FrontPageFragment extends Fragment {
                 FragmentChangerClass.FragmentChanger fragmentChanger = (FragmentChangerClass.FragmentChanger) getActivity();
 
                 fragmentChanger.ChangeFragments(createWalletFrag);
-            }
-        });
-
-        // TODO: if backup already created display 'Restore wallet' option
-        createBackupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment createBackupFragment = new CreateBackupFragment();
-                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-                changer.ChangeFragments(createBackupFragment);
             }
         });
 

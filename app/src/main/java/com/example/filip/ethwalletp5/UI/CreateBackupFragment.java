@@ -16,17 +16,30 @@ import com.example.filip.ethwalletp5.API.APIClient;
 import com.example.filip.ethwalletp5.API.APIInterface;
 import com.example.filip.ethwalletp5.API.Models;
 import com.example.filip.ethwalletp5.Crypto.Hash;
+import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
+import com.example.filip.ethwalletp5.MainActivity;
 import com.example.filip.ethwalletp5.R;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class CreateBackupFragment extends Fragment{
+public class CreateBackupFragment extends Fragment {
     EditText emailInput;
     EditText passwordInput;
     Button createBackupBtn;
+    String walletName;
+
+    @Override
+    public void setArguments(Bundle args) {
+
+        walletName = args.getString("name");
+        super.setArguments(args);
+
+    }
 
     @Nullable
     @Override
@@ -43,15 +56,23 @@ public class CreateBackupFragment extends Fragment{
             public void onClick(View view) {
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
-                // TODO: get encrypted key
-                String walletFileAsString = "ignas";
+
+                WalletWrapper walletWrapper = new WalletWrapper();
+
+//                String encryptedKey = walletWrapper.getWalletFileAsString(getContext(), walletName);
+                String pin = MainActivity.getUserPin();
+
+                String tempWalletName = walletWrapper.reencryptWallet(getContext(), walletName, pin, password);
+                String walletFileAsString = walletWrapper.getWalletFileAsString(getContext(), tempWalletName);
+                File tempFile = new File(getContext().getCacheDir().getPath() + tempWalletName);
+                tempFile.delete();
 
                 // TODO: Email and password validation
-                if (email.length() < 1){
+                if (email.length() < 1) {
                     System.out.println("No email provided");
                 } else {
                     // TODO: how to know if dialog was confirmed?
-                    showConfirmationDialog(email, password);
+//                    showConfirmationDialog(email, password);
 
                     String emailHash = Hash.stringHash(email);
                     String emailPassHash = Hash.stringHash(email + password);

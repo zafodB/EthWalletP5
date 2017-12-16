@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.filip.ethwalletp5.FragmentChangerClass;
+import com.example.filip.ethwalletp5.MainActivity;
 import com.example.filip.ethwalletp5.R;
 
 import java.io.File;
@@ -59,6 +60,8 @@ public class CreatePinFragment extends Fragment{
 
                     FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
                     changer.ChangeFragments(frontPageFrag);
+
+                    MainActivity.setUserPin(pin);
                 }
 
 
