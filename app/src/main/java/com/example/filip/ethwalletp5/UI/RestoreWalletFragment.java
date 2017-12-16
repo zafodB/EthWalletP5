@@ -50,10 +50,31 @@ public class RestoreWalletFragment extends Fragment {
                 } else {
                     String emailHash = Hash.stringHash(email);
                     String emailPassHash = Hash.stringHash(email + password);
+
+                    requestBackup(emailHash, emailPassHash);
                 }
             }
         });
 
         return view;
+    }
+
+    private void requestBackup(String emailHash, String emailPassHash) {
+        Models.Backup backup = new Models.Backup(emailHash, emailPassHash);
+
+        APIInterface service = APIClient.getInstance();
+        Call<Models.Backup> call = service.restoreWallet(backup);
+
+        call.enqueue(new Callback<Models.Backup>() {
+            @Override
+            public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
+                System.out.println(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Models.Backup> call, Throwable t) {
+                Toast.makeText(getActivity(), "Failed" + "\t" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

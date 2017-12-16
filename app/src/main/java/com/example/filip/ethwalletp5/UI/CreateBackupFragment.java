@@ -44,7 +44,7 @@ public class CreateBackupFragment extends Fragment{
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
                 // TODO: get encrypted key
-                String encryptedKey = "hw89qhd129102hd0i";
+                String encryptedKey = "ignas";
 
                 // TODO: Email and password validation
                 if (email.length() < 1){
@@ -86,10 +86,7 @@ public class CreateBackupFragment extends Fragment{
     }
 
     private void sendBackup(String emailHash, String emailPassHash, String encryptedKey) {
-        Models.Backup backup = new Models.Backup();
-        backup.setId(emailHash);
-        backup.setPassword(emailPassHash);
-        backup.setEncryptedKey(encryptedKey);
+        Models.Backup backup = new Models.Backup(emailHash, emailPassHash, encryptedKey);
 
         APIInterface service = APIClient.getInstance();
         Call<Models.Backup> call = service.createBackup(backup);

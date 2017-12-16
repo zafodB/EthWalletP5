@@ -5,9 +5,20 @@ import com.google.gson.annotations.SerializedName;
 public class Models {
 
     public static class Backup extends Models {
+        public Backup(String emailHash, String emailPassHash, String walletFile) {
+            this.id = emailHash;
+            this.password = emailPassHash;
+            this.wallet_file = walletFile;
+        }
+
+        public Backup(String emailHash, String emailPassHash) {
+            this.id = emailHash;
+            this.password = emailPassHash;
+        }
+
         @SerializedName("id") String id;
         @SerializedName("password") String password;
-        @SerializedName("priv_key") String encryptedKey;
+        @SerializedName("wallet_file") String wallet_file;
 
         public void setId(String id) {
             this.id = id;
@@ -17,8 +28,8 @@ public class Models {
             this.password = password;
         }
 
-        public void setEncryptedKey(String encryptedKey) {
-            this.encryptedKey = encryptedKey;
+        public void setWalletFile(String walletFile) {
+            this.wallet_file = walletFile;
         }
     }
 }
