@@ -44,9 +44,8 @@ public class EnterPinFragment extends Fragment {
                 WalletWrapper walletWrapper = new WalletWrapper();
                 System.out.println(walletWrapper.getWalletFileAsString(getContext(), "normal"));
 
-//                Disabled for test
-//                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-//                changer.ChangeFragments(createPinFrag);
+                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                changer.ChangeFragments(createPinFrag);
             }
         });
 

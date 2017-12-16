@@ -46,6 +46,7 @@ public class WalletWrapper {
         String password = MainActivity.getUserPin();
 
         try {
+
             walletFilename = WalletUtils.generateWalletFile(password, ecKeyPair, new File(context.getFilesDir().getPath()), true);
 
         } catch (Exception e) {
