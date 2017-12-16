@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName;
 public class Models {
 
     public static class Backup extends Models {
-        public Backup(String emailHash, String emailPassHash, String walletFile) {
+        public Backup(String emailHash, String emailPassHash, String walletFileAsString) {
             this.id = emailHash;
             this.password = emailPassHash;
-            this.wallet_file = walletFile;
+            this.wallet_file = walletFileAsString;
         }
 
         public Backup(String emailHash, String emailPassHash) {
@@ -28,8 +28,8 @@ public class Models {
             this.password = password;
         }
 
-        public void setWalletFile(String walletFile) {
-            this.wallet_file = walletFile;
+        public void setWalletFile(String walletFileAsString) {
+            this.wallet_file = walletFileAsString;
         }
 
         public String getWallet_file() {
