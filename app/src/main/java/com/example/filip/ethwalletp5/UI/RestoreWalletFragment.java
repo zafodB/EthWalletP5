@@ -69,7 +69,7 @@ public class RestoreWalletFragment extends Fragment {
         call.enqueue(new Callback<Models.Backup>() {
             @Override
             public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
-                if (response.code() == 201) {
+                if (response.code() == 200) {
                     String encryptedWalletFile = response.body().getWallet_file();
                     WalletWrapper walletWrapper = new WalletWrapper();
                     walletWrapper.saveWalletFileFromString(getContext(), encryptedWalletFile, "Restored Wallet");
