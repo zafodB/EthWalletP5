@@ -54,7 +54,17 @@
             android:layout_marginTop="30dp"
             android:text="Create Backup"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/createWalletBtn"
+            android:layout_below="@+id/create_new_wallet_btn"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/restore_wallet_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Restore Wallet"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/createBackupBtn"
             android:textAllCaps="false" />
 
     </RelativeLayout>

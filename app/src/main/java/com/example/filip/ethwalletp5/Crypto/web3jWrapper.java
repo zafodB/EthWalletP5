@@ -123,7 +123,7 @@ public class web3jWrapper {
         }
     }
 
-    public static BigInteger getBallance(Context context, String walletName, String password){
+    public static BigInteger getBallance(Context context, String walletName, String password) {
 
         WalletWrapper walletWrapper = new WalletWrapper();
         Credentials creds = walletWrapper.getWalletCredentials(context,walletName, password);
