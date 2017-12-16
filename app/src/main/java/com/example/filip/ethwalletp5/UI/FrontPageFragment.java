@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -25,15 +26,18 @@ import java.util.ArrayList;
 
 public class FrontPageFragment extends Fragment {
 
-    static String[] walletnames = {"test", "normal", "another test", "yet another test"};
+    //    static String[] walletnames = {"test", "normal", "another test", "yet another test"};
+    ArrayList<String> wallets;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.front_page_fragment, null);
+        View view = inflater.inflate(R.layout.front_page_fragment, container, false);
 
-        ArrayList<String> wallets = WalletWrapper.getWalletNames(getContext());
+        Button createNewWalletBtn = view.findViewById(R.id.create_new_wallet_btn);
+
+        wallets = WalletWrapper.getWalletNames(getContext());
 
         ListAdapter adapter;
 
@@ -43,7 +47,7 @@ public class FrontPageFragment extends Fragment {
         } else {
             adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, wallets);
 
-            ListView walletsList = view.findViewById(R.id.listWallets);
+            ListView walletsList = view.findViewById(R.id.list_wallets);
             walletsList.setAdapter(adapter);
 
             walletsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -54,19 +58,16 @@ public class FrontPageFragment extends Fragment {
                     WalletWrapper walletWrapper = new WalletWrapper();
 
                     try {
-
-                        Toast.makeText(getContext(), walletWrapper.getWalletFilename(getContext(), walletnames[i]), Toast.LENGTH_LONG).show();
-
+                        Toast.makeText(getContext(), walletWrapper.getWalletFilename(getContext(), wallets.get(i)), Toast.LENGTH_SHORT).show();
 
                         Bundle args = new Bundle();
-                        args.putString("name", walletnames[i]);
+                        args.putString("name", wallets.get(i));
 
                         Fragment walletOpenFragment = new WalletOpenFragment();
                         walletOpenFragment.setArguments(args);
 
-                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger)getActivity();
+                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
                         changer.ChangeFragments(walletOpenFragment);
-
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -74,6 +75,19 @@ public class FrontPageFragment extends Fragment {
                 }
             });
         }
+
+        createNewWalletBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateWalletFragment createWalletFrag = new CreateWalletFragment();
+
+                FragmentChangerClass.FragmentChanger fragmentChanger = (FragmentChangerClass.FragmentChanger) getActivity();
+
+                fragmentChanger.ChangeFragments(createWalletFrag);
+            }
+        });
+
+
 
         return view;
     }

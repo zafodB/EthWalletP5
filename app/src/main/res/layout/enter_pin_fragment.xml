@@ -18,48 +18,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/to_address_field"
+        <TextView
+            android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="63dp"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:text="To Address"
-            tools:text="0xC589a27fCC1b1De994cEE8910c33FF74E2Dd649E" />
-
-        <EditText
-            android:id="@+id/gas_price_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/amount_field"
-            android:layout_below="@+id/to_address_field"
-            android:layout_marginTop="32dp"
-            android:ems="10"
-            android:hint="Gas Price (20 GWEI)"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/amount_field"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/gas_price_field"
             android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:hint="Amount"
-            android:inputType="numberDecimal" />
+            android:layout_marginTop="46dp"
+            android:text="Enter Pin Code:"
+            android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/send_out_tx"
+        <EditText
+            android:id="@+id/enter_pin_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/amount_field"
+            android:layout_below="@+id/textView4"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="41dp"
-            android:text="Send" />
+            android:ems="10"
+            android:inputType="numberPassword" />
 
+        <Button
+            android:id="@+id/create_pin_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/enter_pin_field"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="32dp"
+            android:text="Create new Pin"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/create_pin_btn"
+            android:layout_alignBottom="@+id/create_pin_btn"
+            android:layout_alignEnd="@+id/enter_pin_field"
+            android:text="Sign In"
+            android:textAllCaps="false" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

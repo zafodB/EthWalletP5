@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.example.filip.ethwalletp5.Crypto.AddressBook;
 import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
 import com.example.filip.ethwalletp5.Crypto.web3jWrapper;
+import com.example.filip.ethwalletp5.UI.EnterPinFragment;
 import com.example.filip.ethwalletp5.UI.FrontPageFragment;
 
 import java.security.KeyPair;
@@ -21,16 +22,20 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
         System.out.println("Added security provider");
     }
 
+    private static String userPin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FrontPageFragment frontPageFrag = new FrontPageFragment();
+
+        EnterPinFragment enterPinFrag = new EnterPinFragment();
+
 
         getFragmentManager().beginTransaction()
-                .addToBackStack(frontPageFrag.toString())
-                .replace(R.id.fragment_container, frontPageFrag).commit();
+                .addToBackStack(enterPinFrag.toString())
+                .replace(R.id.fragment_container, enterPinFrag).commit();
 //        }
 
 //        Button myButton = findViewById(R.id.button1);
@@ -51,6 +56,7 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
 
 //        FragmentManager fm = getFragmentManager();
 
+        userPin = "asdfghjk";
 
     }
 
@@ -64,27 +70,25 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
                 .commit();
     }
 
-    void doCryptoMagic() throws Exception {
-
-
-        KeyPair myKeyPair = AddressBook.generateAddressPair();
-
-        //TODO remove test
-        String testname = "test";
-
-        WalletWrapper.createWallet(testname, myKeyPair, getApplicationContext());
-
-//
-
-        System.out.println("Result: " + web3jWrapper.sendTransaction(getApplicationContext()));
-
-
 //        TODO If WRAPPER_ERROR, display user message
 //        TODO If WRAPPER_SUCCESS, proceed
 //        TODO offload work from main thread
-//        TOdO Display loading dialogs
+//        TODO Display loading dialogs
 
 
+    /**
+     * This method doesn't do anything anymore. It was the first method in the app and
+     * can't be removed due to huge sentimental value
+     * to the lead Android programmer.
+     *
+     * @throws Exception
+     */
+    void doCryptoMagic() throws Exception {
+
+    }
+
+    public static String getUserPin() {
+        return userPin;
     }
 
 
