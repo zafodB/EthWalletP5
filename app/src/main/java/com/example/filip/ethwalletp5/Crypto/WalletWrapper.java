@@ -127,14 +127,14 @@ public class WalletWrapper {
         return web3jWrapper.WRAPPER_SUCCESS;
     }
 
-    public Credentials getWalletCredentials(Context context, String walletname, String password) {
+    public Credentials getWalletCredentials(Context context, String walletName, String password) {
 
 //        web3jWrapper.getInstance();
         String walletFilename;
         Credentials walletCreds;
 
         try {
-            walletFilename = getWalletFilename(context, walletname);
+            walletFilename = getWalletFilename(context, walletName);
             walletCreds = WalletUtils.loadCredentials(password, context.getFilesDir().getPath() + "/" + walletFilename);
         } catch (IOException | CipherException e) {
             e.printStackTrace();
