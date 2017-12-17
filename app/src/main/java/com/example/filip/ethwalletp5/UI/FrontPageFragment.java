@@ -61,21 +61,19 @@ public class FrontPageFragment extends Fragment {
 
                     WalletWrapper walletWrapper = new WalletWrapper();
 
-                    try {
-                        Toast.makeText(getContext(), walletWrapper.getWalletFilename(getContext(), wallets.get(i)), Toast.LENGTH_SHORT).show();
 
-                        Bundle args = new Bundle();
-                        args.putString("name", wallets.get(i));
+                    Toast.makeText(getContext(), walletWrapper.getWalletFilename(getContext(), wallets.get(i)), Toast.LENGTH_SHORT).show();
 
-                        Fragment walletOpenFragment = new WalletOpenFragment();
-                        walletOpenFragment.setArguments(args);
+                    Bundle args = new Bundle();
+                    args.putString("name", wallets.get(i));
 
-                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-                        changer.ChangeFragments(walletOpenFragment);
+                    Fragment walletOpenFragment = new WalletOpenFragment();
+                    walletOpenFragment.setArguments(args);
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                    changer.ChangeFragments(walletOpenFragment);
+
+
                 }
             });
         }

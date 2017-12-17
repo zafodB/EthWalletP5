@@ -123,12 +123,10 @@ public class web3jWrapper {
         }
     }
 
-    public static BigInteger getBallance(Context context, String walletName, String password) {
+    public static BigInteger getBallance(String publicKey) {
 
-        WalletWrapper walletWrapper = new WalletWrapper();
-        Credentials creds = walletWrapper.getWalletCredentials(context,walletName, password);
-        String address = creds.getAddress();
-
+        String prefix = "0x";
+        String address =  prefix.concat(publicKey);
         try {
             EthGetBalance ethBalance = web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get();
             return ethBalance.getBalance();

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.filip.ethwalletp5.MainActivity;
-import com.example.filip.ethwalletp5.UI.CreateWalletFragment;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -22,7 +24,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.KeyPair;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by filip on 10/12/2017.
@@ -33,34 +37,46 @@ public class WalletWrapper {
     public static final int WALLET_WRAPPER_ERROR = 46;
     public static final int WALLET_WRAPPER_SUCCESS = 47;
 
-    public static int createWallet(String walletName, KeyPair keyPair, Context context) {
 
-        context = context;
+    public String createWallet(String walletName, KeyPair keyPair, Context context) {
 
         Log.i(AddressBook.TAG_SECURITY, "1");
 
         ECKeyPair ecKeyPair = ECKeyPair.create(keyPair);
 
-        String walletFilename;
-
         String password = MainActivity.getUserPin();
-
+        String publicKey;
         try {
+//            walletFilename = WalletUtils.generateWalletFile(password, ecKeyPair, new File(context.getFilesDir().getPath()), true);
 
-            walletFilename = WalletUtils.generateWalletFile(password, ecKeyPair, new File(context.getFilesDir().getPath()), true);
+//            Edits to wallet creation here
+            WalletFile walletFile = Wallet.createLight(password, ecKeyPair);
+
+            String fileName = walletFile.getAddress();
+            File destination = new File(context.getFilesDir().getPath(), fileName);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            objectMapper.writeValue(destination, walletFile);
+
+            publicKey = walletFile.getAddress();
+
+            saveWalletFilename(walletName, fileName, context);
+
+            Log.i(AddressBook.TAG_SECURITY, "Successfully created wallet.");
+            return publicKey;
+
+//            Edits end here
 
         } catch (Exception e) {
 
             Log.i(AddressBook.TAG_SECURITY, e.getMessage());
             Log.i(AddressBook.TAG_SECURITY, e.getStackTrace().toString());
             e.printStackTrace();
-            return web3jWrapper.WRAPPER_ERROR;
+            return null;
         }
-
-        saveWalletFilename(walletName, walletFilename, context);
-
-        Log.i(AddressBook.TAG_SECURITY, "Successfully created wallet.");
-        return web3jWrapper.WRAPPER_SUCCESS;
     }
 
     //    TODO Move to WalletWrapper
@@ -129,25 +145,30 @@ public class WalletWrapper {
         return walletCreds;
     }
 
-    public String getWalletFilename(Context context, String walletName) throws IOException {
-        InputStream in = context.openFileInput("wallets");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+    public String getWalletFilename(Context context, String walletName) {
+        try {
+            InputStream in = context.openFileInput("wallets");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 
-        String start = reader.readLine();
+            String start = reader.readLine();
 
-        while (start != null) {
-            if (walletName.equals(start)) {
-                break;
-            } else {
-                reader.readLine();
-                start = reader.readLine();
+            while (start != null) {
+                if (walletName.equals(start)) {
+                    break;
+                } else {
+                    reader.readLine();
+                    start = reader.readLine();
+                }
             }
+
+            String walletFilename = reader.readLine();
+
+            reader.close();
+            return walletFilename;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-
-        String walletFilename = reader.readLine();
-
-        reader.close();
-        return walletFilename;
     }
 
     public boolean WalletFileExists(Context context) {
@@ -185,7 +206,7 @@ public class WalletWrapper {
         return WALLET_WRAPPER_ERROR;
     }
 
-    public String getWalletFileAsString(Context context , String walletFile){
+    public String getWalletFileAsString(Context context, String walletFile) {
 
         try {
             InputStream in = context.openFileInput(walletFile);
@@ -200,11 +221,11 @@ public class WalletWrapper {
 
     }
 
-    public int saveWalletFileFromString(Context context, String walletFile, String walletName){
+    public int saveWalletFileFromString(Context context, String walletFile, String walletName) {
 
-        String fileName = "ImportedWallet" + String.valueOf(System.currentTimeMillis());
+        String fileName = walletFile.substring(12, 52);
 
-        File wallet = new File(context.getFilesDir().getPath(), fileName);
+//        File wallet = new File(context.getFilesDir().getPath(), fileName);
 
         try {
             FileOutputStream outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -223,7 +244,7 @@ public class WalletWrapper {
         }
     }
 
-    public String reencryptWallet(Context context, String walletName, String oldPass, String newPass){
+    public String reencryptWallet(Context context, String walletName, String oldPass, String newPass) {
 
         try {
             String walletFileName = getWalletFilename(context, walletName);
@@ -232,21 +253,11 @@ public class WalletWrapper {
             ECKeyPair keyPair = walletCreds.getEcKeyPair();
 
             return WalletUtils.generateWalletFile(newPass, keyPair, context.getFilesDir(), true);
-        }
-        catch (IOException | CipherException e){
+        } catch (IOException | CipherException e) {
             e.printStackTrace();
 //            TODO error handling;
             return null;
         }
     }
-
-//    void test(){
-//        WalletUtils wu = new WalletUtils();
-//        WalletFile wf = new WalletFile();
-//        wf.getAddress();
-//
-//        Wallet.
-//
-//    }
 
 }

@@ -55,7 +55,11 @@ public class WalletOpenFragment extends Fragment {
 
         TextView walletBalance = view.findViewById(R.id.eth_balance_textview);
 //        TODO add loading dialog
-//        walletBalance.setText(balanceToString(web3jWrapper.getBallance(getContext(), walletName, MainActivity.getUserPin())));
+        WalletWrapper walletWrapper = new WalletWrapper();
+        String publicKey = walletWrapper.getWalletFilename(getContext(), walletName);
+
+        walletNameText.setText("0x" + publicKey);
+        walletBalance.setText(balanceToString(web3jWrapper.getBallance(publicKey)));
 
         Button sendTransactionBtn = view.findViewById(R.id.send_transaction_button);
         sendTransactionBtn.setOnClickListener(new View.OnClickListener() {

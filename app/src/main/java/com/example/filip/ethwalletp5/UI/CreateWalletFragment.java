@@ -38,7 +38,9 @@ public class CreateWalletFragment extends Fragment {
 
                 KeyPair myKeyPair = AddressBook.generateAddressPair();
 
-                WalletWrapper.createWallet(walletNameInput.getText().toString(), myKeyPair, getContext());
+                WalletWrapper walletWrapper = new WalletWrapper();
+
+                walletWrapper.createWallet(walletNameInput.getText().toString(), myKeyPair, getContext());
 
                 FragmentManager fm = getFragmentManager();
                 fm.popBackStack();
