@@ -32,7 +32,7 @@ public class Models {
             this.wallet_file = walletFileAsString;
         }
 
-        public String getWallet_file() {
+        public String getWalletFile() {
             return wallet_file;
         }
     }

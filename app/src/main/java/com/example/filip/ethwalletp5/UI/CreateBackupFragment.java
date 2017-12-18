@@ -57,21 +57,20 @@ public class CreateBackupFragment extends Fragment {
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
 
-                // TODO: get encrypted key
-                WalletWrapper walletWrapper = new WalletWrapper();
-                
-//                String encryptedKey = walletWrapper.getWalletFileAsString(getContext(), walletName);
-                String pin = MainActivity.getUserPin();
-
-                String tempWalletName = walletWrapper.reencryptWallet(getContext(), walletName, pin, password);
-                String walletFileAsString = walletWrapper.getWalletFileAsString(getContext(), tempWalletName);
-                File tempFile = new File(getContext().getFilesDir().getPath() + "/" +tempWalletName);
-                System.out.println("File deletion was successfull: " + tempFile.delete());
-
                 // TODO: Email and password validation
-                if (email.length() < 1) {
-                    System.out.println("No email provided");
+                if (email.length() < 1 | password.length() < 6) {
+                    System.out.println("Incorrect details entered");
                 } else {
+                    // TODO: get encrypted key
+                    WalletWrapper walletWrapper = new WalletWrapper();
+
+                    String pin = MainActivity.getUserPin();
+
+                    String tempWalletName = walletWrapper.reencryptWallet(getContext(), walletName, pin, password);
+                    String walletFileAsString = walletWrapper.getWalletFileAsString(getContext(), tempWalletName);
+                    File tempFile = new File(getContext().getFilesDir().getPath() + "/" +tempWalletName);
+                    System.out.println("File deletion was successfull: " + tempFile.delete());
+
                     // TODO: how to know if dialog was confirmed?
 //                    showConfirmationDialog(email, password);
 
@@ -117,10 +116,10 @@ public class CreateBackupFragment extends Fragment {
             @Override
             public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
                 if (response.code() == 201) {
-                    Toast.makeText(getActivity(), "Backup successfully saved in the database!" + "\t" + response.code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Backup successfully saved in the database!", Toast.LENGTH_SHORT).show();
                 } else {
                     // TODO: handle response (fail or update?)
-                    Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Something went wrong: " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
