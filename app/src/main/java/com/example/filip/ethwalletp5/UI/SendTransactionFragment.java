@@ -60,7 +60,7 @@ public class SendTransactionFragment extends Fragment{
 
 
 //                TODO handle transaction result
-               web3jWrapper.sendTransaction(getContext(), toAddress, gasPrice, amount);
+               web3jWrapper.sendTransaction(getContext(), walletName, toAddress, gasPrice, amount);
 
             }
         });

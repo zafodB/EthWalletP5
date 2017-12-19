@@ -5,6 +5,8 @@ import android.util.Log;
 import org.spongycastle.jcajce.provider.digest.Keccak;
 import org.spongycastle.jce.interfaces.ECPrivateKey;
 import org.spongycastle.jce.interfaces.ECPublicKey;
+import org.spongycastle.pqc.crypto.mceliece.McElieceCCA2KeyGenerationParameters;
+import org.spongycastle.pqc.crypto.mceliece.McElieceParameters;
 import org.spongycastle.util.encoders.Hex;
 
 import java.security.InvalidAlgorithmParameterException;
@@ -12,6 +14,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.Provider;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.security.spec.ECGenParameterSpec;
@@ -32,8 +35,8 @@ public class AddressBook {
     private static ECPrivateKey privateKey;
 
     static {
-        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
-        Log.i(TAG_SECURITY, "Added security provider");
+//        Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
+//        Log.i(TAG_SECURITY, "Added security provider");
 
         ecGenSpec = new ECGenParameterSpec("secp256k1");
 
@@ -44,7 +47,6 @@ public class AddressBook {
             e.printStackTrace();
         }
     }
-
 
     public static java.security.KeyPair generateAddressPair() {
         return generateAddresses();

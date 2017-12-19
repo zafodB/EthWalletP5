@@ -51,13 +51,12 @@ public class web3jWrapper {
         }
     }
 
-    public static int sendTransaction(Context context , String to, BigInteger gasPrice, BigInteger value) {
+    public static int sendTransaction(Context context, String from, String to, BigInteger gasPrice, BigInteger value) {
 
-        String walletname = "normal";
-        //TODO remove test
+//        from = "normal";
+//        TO DO remove test
 
-        Credentials credentials = new WalletWrapper().getWalletCredentials(context, walletname, MainActivity.getUserPin());
-
+        Credentials credentials = new WalletWrapper().getWalletCredentials(context, from, MainActivity.getUserPin());
 
         BigInteger nonce = getNonce(credentials.getAddress());
         if (nonce == null) {
@@ -78,7 +77,6 @@ public class web3jWrapper {
 //        String recipientAddr = to;
 //        BigInteger value = new BigInteger("3500000000");
 
-
         RawTransaction rawTrx = RawTransaction.createEtherTransaction(nonce, sGasPrice, gasLimit, recipientAddr, value);
 
         byte[] signedMessage = TransactionEncoder.signMessage(rawTrx, credentials);
@@ -88,7 +86,6 @@ public class web3jWrapper {
             EthSendTransaction ethSendTx;
 
             ethSendTx = web3.ethSendRawTransaction(hexMessage).sendAsync().get();
-
 
             String txHash = ethSendTx.getTransactionHash();
 
@@ -107,7 +104,7 @@ public class web3jWrapper {
 
     private static BigInteger getNonce(String address) {
 
-        EthGetTransactionCount trxCount = null;
+        EthGetTransactionCount trxCount;
         try {
             trxCount = web3
                     .ethGetTransactionCount(address, DefaultBlockParameterName.LATEST)

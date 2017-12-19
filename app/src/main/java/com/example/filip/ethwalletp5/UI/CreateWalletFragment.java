@@ -47,9 +47,6 @@ public class CreateWalletFragment extends Fragment {
             }
         });
 
-
-
-
         return view;
     }
 }

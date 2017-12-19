@@ -5,10 +5,13 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.filip.ethwalletp5.UI.EnterPinFragment;
 
+import java.security.Provider;
 import java.security.Security;
+import java.util.Set;
 
 public class MainActivity extends Activity implements FragmentChangerClass.FragmentChanger {
 
@@ -24,35 +27,11 @@ public class MainActivity extends Activity implements FragmentChangerClass.Fragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         EnterPinFragment enterPinFrag = new EnterPinFragment();
-
 
         getFragmentManager().beginTransaction()
                 .addToBackStack(enterPinFrag.toString())
                 .replace(R.id.fragment_container, enterPinFrag).commit();
-//        }
-
-//        Button myButton = findViewById(R.id.button1);
-//
-//        myButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(), "You're ugly.", Toast.LENGTH_SHORT).show();
-//
-//                try {
-//                    System.out.println("Button Pressed");
-//                    doCryptoMagic();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-
-//        FragmentManager fm = getFragmentManager();
-
-//        userPin = "asdfghjk";
-
     }
 
     @Override

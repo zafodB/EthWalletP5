@@ -63,9 +63,6 @@ public class CreatePinFragment extends Fragment{
 
                     MainActivity.setUserPin(pin);
                 }
-
-
-
             }
         });
 
