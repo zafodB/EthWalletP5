@@ -61,16 +61,16 @@ public class RestoreWalletFragment extends Fragment {
     }
 
     private void requestBackup(String emailHash, String emailPassHash) {
-        Models.Backup backup = new Models.Backup(emailHash, emailPassHash);
+        Models.Backup backupRequest = new Models.Backup(emailHash, emailPassHash);
 
-        APIInterface service = APIClient.getInstance();
-        Call<Models.Backup> call = service.restoreWallet(backup);
+        APIInterface apiService = APIClient.getInstance();
+        Call<Models.Backup> call = apiService.restoreWallet(backupRequest);
 
         call.enqueue(new Callback<Models.Backup>() {
             @Override
             public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
                 if (response.code() == 200) {
-                    String encryptedWalletFile = response.body().getWallet_file();
+                    String encryptedWalletFile = response.body().getWalletFile();
                     WalletWrapper walletWrapper = new WalletWrapper();
                     walletWrapper.saveWalletFileFromString(getContext(), encryptedWalletFile, "Restored Wallet");
                 } else {
