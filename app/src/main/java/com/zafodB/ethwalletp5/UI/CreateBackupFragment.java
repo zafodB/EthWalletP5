@@ -1,4 +1,4 @@
-package com.example.filip.ethwalletp5.UI;
+package com.zafodB.ethwalletp5.UI;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,13 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.filip.ethwalletp5.API.APIClient;
-import com.example.filip.ethwalletp5.API.APIInterface;
-import com.example.filip.ethwalletp5.API.Models;
-import com.example.filip.ethwalletp5.Crypto.Hash;
-import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
-import com.example.filip.ethwalletp5.MainActivity;
-import com.example.filip.ethwalletp5.R;
+import com.zafodB.ethwalletp5.API.APIClient;
+import com.zafodB.ethwalletp5.API.APIInterface;
+import com.zafodB.ethwalletp5.API.Models;
+import com.zafodB.ethwalletp5.Crypto.Hash;
+import com.zafodB.ethwalletp5.Crypto.WalletWrapper;
+import com.zafodB.ethwalletp5.MainActivity;
+import com.zafodB.ethwalletp5.R;
 
 import java.io.File;
 

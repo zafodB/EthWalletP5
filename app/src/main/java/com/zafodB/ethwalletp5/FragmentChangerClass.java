@@ -1,4 +1,4 @@
-package com.example.filip.ethwalletp5;
+package com.zafodB.ethwalletp5;
 
 import android.app.Fragment;
 

@@ -1,4 +1,4 @@
-package com.example.filip.ethwalletp5.UI;
+package com.zafodB.ethwalletp5.UI;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.filip.ethwalletp5.FragmentChangerClass;
-import com.example.filip.ethwalletp5.MainActivity;
-import com.example.filip.ethwalletp5.R;
+import com.zafodB.ethwalletp5.FragmentChangerClass;
+import com.zafodB.ethwalletp5.MainActivity;
+import com.zafodB.ethwalletp5.R;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,9 +1,9 @@
-package com.example.filip.ethwalletp5.Crypto;
+package com.zafodB.ethwalletp5.Crypto;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.example.filip.ethwalletp5.MainActivity;
+import com.zafodB.ethwalletp5.MainActivity;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;

@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.example.filip.ethwalletp5"
+        applicationId "com.zafodB.ethwalletp5"
         minSdkVersion 25
         targetSdkVersion 26
         versionCode 1

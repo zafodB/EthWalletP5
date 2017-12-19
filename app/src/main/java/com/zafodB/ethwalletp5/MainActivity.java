@@ -1,4 +1,4 @@
-package com.example.filip.ethwalletp5;
+package com.zafodB.ethwalletp5;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -7,7 +7,7 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.filip.ethwalletp5.UI.EnterPinFragment;
+import com.zafodB.ethwalletp5.UI.EnterPinFragment;
 
 import java.security.Provider;
 import java.security.Security;

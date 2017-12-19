@@ -1,4 +1,4 @@
-package com.example.filip.ethwalletp5.UI;
+package com.zafodB.ethwalletp5.UI;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.filip.ethwalletp5.Crypto.web3jWrapper;
-import com.example.filip.ethwalletp5.R;
+import com.zafodB.ethwalletp5.Crypto.web3jWrapper;
+import com.zafodB.ethwalletp5.R;
 
 import java.io.BufferedReader;
 import java.math.BigInteger;
 
-import static com.example.filip.ethwalletp5.Crypto.web3jWrapper.sendTransaction;
+import static com.zafodB.ethwalletp5.Crypto.web3jWrapper.sendTransaction;
 
 /**
  * Created by filip on 13/12/2017.

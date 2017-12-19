@@ -1,4 +1,4 @@
-package com.example.filip.ethwalletp5.API;
+package com.zafodB.ethwalletp5.API;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 

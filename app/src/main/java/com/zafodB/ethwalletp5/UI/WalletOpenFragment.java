@@ -1,4 +1,4 @@
-package com.example.filip.ethwalletp5.UI;
+package com.zafodB.ethwalletp5.UI;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.filip.ethwalletp5.Crypto.WalletWrapper;
-import com.example.filip.ethwalletp5.Crypto.web3jWrapper;
-import com.example.filip.ethwalletp5.FragmentChangerClass;
-import com.example.filip.ethwalletp5.MainActivity;
-import com.example.filip.ethwalletp5.R;
+import com.zafodB.ethwalletp5.Crypto.WalletWrapper;
+import com.zafodB.ethwalletp5.Crypto.web3jWrapper;
+import com.zafodB.ethwalletp5.FragmentChangerClass;
+import com.zafodB.ethwalletp5.MainActivity;
+import com.zafodB.ethwalletp5.R;
 
 import org.spongycastle.util.encoders.Hex;
 import org.web3j.protocol.Web3j;
