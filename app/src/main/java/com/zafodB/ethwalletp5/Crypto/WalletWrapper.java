@@ -36,11 +36,15 @@ public class WalletWrapper {
     public static final int WALLET_WRAPPER_SUCCESS = 47;
 
 
-    public String createWallet(String walletName, KeyPair keyPair, Context context) {
+    public String createWallet(Context context, String walletName, KeyPair keyPair) {
+        ECKeyPair ecKeyPair = ECKeyPair.create(keyPair);
+
+        return createWallet(context, walletName, ecKeyPair);
+    }
+
+    public String createWallet(Context context, String walletName, ECKeyPair ecKeyPair) {
 
         Log.i(AddressBook.TAG_SECURITY, "1");
-
-        ECKeyPair ecKeyPair = ECKeyPair.create(keyPair);
 
         String password = MainActivity.getUserPin();
         String publicKey;
@@ -61,7 +65,7 @@ public class WalletWrapper {
 
             publicKey = walletFile.getAddress();
 
-            saveWalletFilename(walletName, fileName, context);
+            saveWalletFilename(context, walletName, fileName);
 
             Log.i(AddressBook.TAG_SECURITY, "Successfully created wallet.");
             return publicKey;
@@ -77,9 +81,7 @@ public class WalletWrapper {
         }
     }
 
-    //    TODO Move to WalletWrapper
-    //    TODO Handle multiple wallets
-    private static int saveWalletFilename(String walletName, String filename, Context context) {
+    private static int saveWalletFilename(Context context, String walletName, String filename) {
         File wallets = new File(context.getFilesDir().getPath(), "wallets");
 
         if (!wallets.exists()) {
@@ -131,6 +133,8 @@ public class WalletWrapper {
         String walletFilename;
         Credentials walletCreds;
 
+
+//        walletCreds.getEcKeyPair()
         try {
             walletFilename = getWalletFilename(context, walletName);
             walletCreds = WalletUtils.loadCredentials(password, context.getFilesDir().getPath() + "/" + walletFilename);
@@ -199,11 +203,6 @@ public class WalletWrapper {
         }
     }
 
-    public int getPublicKey() {
-
-        return WALLET_WRAPPER_ERROR;
-    }
-
     public String getWalletFileAsString(Context context, String walletFile) {
 
         try {
@@ -216,10 +215,9 @@ public class WalletWrapper {
             e.printStackTrace();
             return null;
         }
-
     }
 
-    public int saveWalletFileFromString(Context context, String walletFile, String walletName) {
+    public int saveWalletFileFromString(Context context, String walletFile, String password, String walletName) {
 
         String fileName = walletFile.substring(12, 52);
 
@@ -233,7 +231,7 @@ public class WalletWrapper {
             writer.flush();
             writer.close();
 
-            saveWalletFilename(walletName, fileName, context);
+            reencryptWallet(context, walletName, password, MainActivity.getUserPin());
 
             return WALLET_WRAPPER_SUCCESS;
         } catch (FileNotFoundException e) {

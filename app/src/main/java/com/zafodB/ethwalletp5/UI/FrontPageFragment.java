@@ -66,8 +66,6 @@ public class FrontPageFragment extends Fragment {
 
                     FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
                     changer.ChangeFragments(walletOpenFragment);
-
-
                 }
             });
         }

@@ -30,6 +30,8 @@ public class RestoreWalletFragment extends Fragment {
     EditText passwordInput;
     Button restoreWalletBtn;
 
+    String password;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +46,8 @@ public class RestoreWalletFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String email = emailInput.getText().toString();
-                String password = passwordInput.getText().toString();
+                password = passwordInput.getText().toString();
+
 
                 // TODO: Email and password validation
                 if (email.length() == 0 || password.length() == 0) {
@@ -73,7 +76,7 @@ public class RestoreWalletFragment extends Fragment {
                 if (response.code() == 200) {
                     String encryptedWalletFile = response.body().getWalletFile();
                     WalletWrapper walletWrapper = new WalletWrapper();
-                    walletWrapper.saveWalletFileFromString(getContext(), encryptedWalletFile, "Restored Wallet");
+                    walletWrapper.saveWalletFileFromString(getContext(), encryptedWalletFile, password,"Restored Wallet");
 
                     FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
 

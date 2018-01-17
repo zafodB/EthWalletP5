@@ -1,9 +1,14 @@
 package com.zafodB.ethwalletp5.Crypto;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.zafodB.ethwalletp5.FragmentChangerClass;
 import com.zafodB.ethwalletp5.MainActivity;
+import com.zafodB.ethwalletp5.UI.WalletOpenFragment;
 
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
@@ -18,7 +23,9 @@ import org.web3j.protocol.core.methods.response.Web3ClientVersion;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.BitSet;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -31,6 +38,12 @@ public class web3jWrapper {
 
     public static final int WRAPPER_ERROR = 44;
     public static final int WRAPPER_SUCCESS = 45;
+
+    public static String getTxHash() {
+        return txHash;
+    }
+
+    static String txHash;
 
     static {
         web3 = Web3jFactory.build(new HttpService("https://kovan.infura.io/Ceux1wHF7EsQWKb9p8da"));
@@ -51,10 +64,7 @@ public class web3jWrapper {
         }
     }
 
-    public static int sendTransaction(Context context, String from, String to, BigInteger gasPrice, BigInteger value) {
-
-//        from = "normal";
-//        TO DO remove test
+    public static int sendTransaction(Context context, String from, String to, String gasPrice, String valueInEth) {
 
         Credentials credentials = new WalletWrapper().getWalletCredentials(context, from, MainActivity.getUserPin());
 
@@ -67,39 +77,42 @@ public class web3jWrapper {
 
         System.out.printf("\nNonce for address: %s \nis this: %d\n", credentials.getAddress(), nonce);
 
-//        TODO Remove Test
-        BigInteger sGasPrice = new BigInteger("20000000000");
         String recipientAddr = "0xC589a27fCC1b1De994cEE8910c33FF74E2Dd649E";
-//        TEST END
 
-//        BigInteger sGasPrice = gasPrice;
-        BigInteger gasLimit = new BigInteger("400000");
-//        String recipientAddr = to;
-//        BigInteger value = new BigInteger("3500000000");
+        BigInteger sGasPrice = gWeiToWei(gasPrice);
+        BigInteger gasLimit = new BigInteger("21000");
+        BigInteger value = ethToWei(valueInEth);
 
         RawTransaction rawTrx = RawTransaction.createEtherTransaction(nonce, sGasPrice, gasLimit, recipientAddr, value);
 
         byte[] signedMessage = TransactionEncoder.signMessage(rawTrx, credentials);
         String hexMessage = Numeric.toHexString(signedMessage);
 
+
         try {
             EthSendTransaction ethSendTx;
-
             ethSendTx = web3.ethSendRawTransaction(hexMessage).sendAsync().get();
 
-            String txHash = ethSendTx.getTransactionHash();
+            if (!ethSendTx.hasError()) {
+                txHash = ethSendTx.getTransactionHash();
+                System.out.println("Transaction hash is:" + txHash);
 
-//            TODO implement if, there is an error with the message
-            System.out.println("Transaction hash is:" + txHash);
+                return WRAPPER_SUCCESS;
+            } else {
+                Toast.makeText(context, "There was an error with following details: \"" + ethSendTx.getError().getMessage() + "\"", Toast.LENGTH_LONG).show();
 
-            return WRAPPER_SUCCESS;
+                Log.e(MainActivity.TAG, "There was an error:" + ethSendTx.getError().getMessage() + "\n" + ethSendTx.getError().getData());
+
+                return WRAPPER_ERROR;
+            }
 
         } catch (InterruptedException | ExecutionException e) {
+            Toast.makeText(context, "There was an unspecified error. Please try again.", Toast.LENGTH_LONG).show();
+            Log.e(MainActivity.TAG, "Exception was thrown.");
+            Log.e(MainActivity.TAG, e.getMessage());
             e.printStackTrace();
             return WRAPPER_ERROR;
         }
-
-//        return WRAPPER_ERROR;
     }
 
     private static BigInteger getNonce(String address) {
@@ -123,7 +136,7 @@ public class web3jWrapper {
     public static BigInteger getBallance(String publicKey) {
 
         String prefix = "0x";
-        String address =  prefix.concat(publicKey);
+        String address = prefix.concat(publicKey);
         try {
             EthGetBalance ethBalance = web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).sendAsync().get();
             return ethBalance.getBalance();
@@ -134,6 +147,22 @@ public class web3jWrapper {
             System.out.println("Could not load wallets");
             return null;
         }
+    }
+
+    public static BigInteger ethToWei(String amount) {
+        double ethAmount = Double.parseDouble(amount);
+        ethAmount = ethAmount * 1000000 * 1000000 * 1000000;
+
+        return new BigDecimal(ethAmount).toBigInteger();
 
     }
+
+    public static BigInteger gWeiToWei(String amount) {
+        double gweiAmount = Double.parseDouble(amount);
+        gweiAmount = gweiAmount * 1000000000;
+
+        return new BigDecimal(gweiAmount).toBigInteger();
+
+    }
+
 }
