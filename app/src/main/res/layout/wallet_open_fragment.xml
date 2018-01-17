@@ -56,9 +56,9 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="22dp"
+            android:textIsSelectable="true"
             android:text="Wallet name"
             android:textSize="18sp"
-            android:textIsSelectable="true"
             tools:text="myWallet" />
 
         <Button
