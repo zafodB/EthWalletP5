@@ -59,6 +59,7 @@
             android:textIsSelectable="true"
             android:text="Wallet name"
             android:textSize="18sp"
+            android:textIsSelectable="true"
             tools:text="myWallet" />
 
         <Button
