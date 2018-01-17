@@ -72,6 +72,8 @@ public class CreateBackupFragment extends Fragment {
                     String emailHash = Hash.stringHash(email);
                     String emailPassHash = Hash.stringHash(email + password);
                     sendBackup(emailHash, emailPassHash, walletFileAsString);
+
+
                 }
             }
         });

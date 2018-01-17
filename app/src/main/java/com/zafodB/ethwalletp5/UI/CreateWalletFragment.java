@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.zafodB.ethwalletp5.Crypto.AddressBook;
 import com.zafodB.ethwalletp5.Crypto.WalletWrapper;
+import com.zafodB.ethwalletp5.MainActivity;
 import com.zafodB.ethwalletp5.R;
 
 import java.security.KeyPair;
@@ -43,8 +44,7 @@ public class CreateWalletFragment extends Fragment {
 
                     WalletWrapper walletWrapper = new WalletWrapper();
 
-
-                walletWrapper.createWallet(getContext(), walletNameInput.getText().toString(), myKeyPair);
+                    walletWrapper.createBrandNewWallet(getContext(), MainActivity.getUserPin(), walletNameInput.getText().toString(), myKeyPair);
 
                     FragmentManager fm = getFragmentManager();
                     fm.popBackStack();

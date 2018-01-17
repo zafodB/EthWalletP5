@@ -36,23 +36,25 @@ public class WalletWrapper {
     public static final int WALLET_WRAPPER_SUCCESS = 47;
 
 
-    public String createWallet(Context context, String walletName, KeyPair keyPair) {
+    public String createBrandNewWallet(Context context, String newPassword, String walletName, KeyPair keyPair) {
         ECKeyPair ecKeyPair = ECKeyPair.create(keyPair);
 
-        return createWallet(context, walletName, ecKeyPair);
+        String fileName = createWallet(context, newPassword, walletName, ecKeyPair);
+
+        saveWalletFilename(context, walletName, fileName);
+
+        return null;
     }
 
-    public String createWallet(Context context, String walletName, ECKeyPair ecKeyPair) {
+    public String createWallet(Context context, String newPassword, String walletName, ECKeyPair ecKeyPair) {
 
-        Log.i(AddressBook.TAG_SECURITY, "1");
-
-        String password = MainActivity.getUserPin();
+//        String password = MainActivity.getUserPin();
         String publicKey;
         try {
 //            walletFilename = WalletUtils.generateWalletFile(password, ecKeyPair, new File(context.getFilesDir().getPath()), true);
 
 //            Edits to wallet creation here
-            WalletFile walletFile = Wallet.createLight(password, ecKeyPair);
+            WalletFile walletFile = Wallet.createLight(newPassword, ecKeyPair);
 
             String fileName = walletFile.getAddress();
             File destination = new File(context.getFilesDir().getPath(), fileName);
@@ -64,8 +66,6 @@ public class WalletWrapper {
             objectMapper.writeValue(destination, walletFile);
 
             publicKey = walletFile.getAddress();
-
-            saveWalletFilename(context, walletName, fileName);
 
             Log.i(AddressBook.TAG_SECURITY, "Successfully created wallet.");
             return publicKey;
@@ -101,21 +101,6 @@ public class WalletWrapper {
             printWriter.println();
             printWriter.write(filename);
             printWriter.println();
-
-//                printWriter.write("normal");
-//                printWriter.println();
-//                printWriter.write("UTC--2017-12-09T10-52-10.277--e87bd5722e14a0be1553e67796f3e922f3c1143a.json");
-//                printWriter.println();
-//
-//                printWriter.write("another test");
-//                printWriter.println();
-//                printWriter.write("anothertestwalletfile.json");
-//                printWriter.println();
-//
-//                printWriter.write("yet another test");
-//                printWriter.println();
-//                printWriter.write("yetanothertestwalletfile.json");
-//                printWriter.println();
 
             printWriter.flush();
             printWriter.close();
@@ -231,6 +216,8 @@ public class WalletWrapper {
             writer.flush();
             writer.close();
 
+            saveWalletFilename(context, walletName, fileName);
+
             reencryptWallet(context, walletName, password, MainActivity.getUserPin());
 
             return WALLET_WRAPPER_SUCCESS;
@@ -248,7 +235,8 @@ public class WalletWrapper {
             Credentials walletCreds = WalletUtils.loadCredentials(oldPass, context.getFilesDir().getPath() + "/" + walletFileName);
             ECKeyPair keyPair = walletCreds.getEcKeyPair();
 
-            return WalletUtils.generateWalletFile(newPass, keyPair, context.getFilesDir(), true);
+//            return WalletUtils.generateWalletFile(newPass, keyPair, context.getFilesDir(), false);
+            return createWallet(context, newPass, walletName, keyPair);
         } catch (IOException | CipherException e) {
             e.printStackTrace();
 //            TODO error handling;
