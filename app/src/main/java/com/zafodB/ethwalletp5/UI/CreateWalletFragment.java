@@ -40,7 +40,7 @@ public class CreateWalletFragment extends Fragment {
 
                 WalletWrapper walletWrapper = new WalletWrapper();
 
-                walletWrapper.createWallet(walletNameInput.getText().toString(), myKeyPair, getContext());
+                walletWrapper.createWallet(getContext(), walletNameInput.getText().toString(), myKeyPair);
 
                 FragmentManager fm = getFragmentManager();
                 fm.popBackStack();

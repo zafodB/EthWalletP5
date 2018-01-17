@@ -15,6 +15,8 @@ import java.util.Set;
 
 public class MainActivity extends Activity implements FragmentChangerClass.FragmentChanger {
 
+    public static final String TAG = "userValidTag";
+
     static {
         Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
         System.out.println("Added security provider");

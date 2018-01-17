@@ -32,9 +32,7 @@ import java.security.NoSuchAlgorithmException;
 public class WalletOpenFragment extends Fragment {
 
     String walletName;
-
     Button createBackupBtn;
-
 
     @Override
     public void setArguments(Bundle args) {
