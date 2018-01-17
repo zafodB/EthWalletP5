@@ -3,8 +3,6 @@ package com.zafodB.ethwalletp5.UI;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +15,7 @@ import com.zafodB.ethwalletp5.API.APIInterface;
 import com.zafodB.ethwalletp5.API.Models;
 import com.zafodB.ethwalletp5.Crypto.Hash;
 import com.zafodB.ethwalletp5.Crypto.WalletWrapper;
+import com.zafodB.ethwalletp5.FragmentChangerClass;
 import com.zafodB.ethwalletp5.MainActivity;
 import com.zafodB.ethwalletp5.R;
 
@@ -57,9 +56,8 @@ public class CreateBackupFragment extends Fragment {
                 String email = emailInput.getText().toString();
                 String password = passwordInput.getText().toString();
 
-                // TODO: Email and password validation
                 if (email.length() < 1 | password.length() < 6) {
-                    System.out.println("Incorrect details entered");
+                    Toast.makeText(getActivity(), "Wrong details entered!", Toast.LENGTH_SHORT).show();
                 } else {
                     // TODO: get encrypted key
                     WalletWrapper walletWrapper = new WalletWrapper();
@@ -71,9 +69,6 @@ public class CreateBackupFragment extends Fragment {
                     File tempFile = new File(getContext().getFilesDir().getPath() + "/" +tempWalletName);
                     System.out.println("File deletion was successfull: " + tempFile.delete());
 
-                    // TODO: how to know if dialog was confirmed?
-//                    showConfirmationDialog(email, password);
-
                     String emailHash = Hash.stringHash(email);
                     String emailPassHash = Hash.stringHash(email + password);
                     sendBackup(emailHash, emailPassHash, walletFileAsString);
@@ -82,28 +77,6 @@ public class CreateBackupFragment extends Fragment {
         });
 
         return view;
-    }
-
-    private void showConfirmationDialog(String email, String password) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Confirm backup details");
-        builder.setMessage("Make sure entered details are right before confirm\n\n" + "Email - " + email + "\nPassword - " + password);
-        builder.setCancelable(false);
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // TODO: implement API call after confirm
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.show();
     }
 
     private void sendBackup(String emailHash, String emailPassHash, String walletFileAsString) {
@@ -117,6 +90,13 @@ public class CreateBackupFragment extends Fragment {
             public void onResponse(Call<Models.Backup> call, Response<Models.Backup> response) {
                 if (response.code() == 201) {
                     Toast.makeText(getActivity(), "Backup successfully saved in the database!", Toast.LENGTH_SHORT).show();
+
+                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+
+                    FrontPageFragment frontPageFrag = new FrontPageFragment();
+
+                    changer.ChangeFragments(frontPageFrag);
+
                 } else {
                     // TODO: handle response (fail or update?)
                     Toast.makeText(getActivity(), "Something went wrong: " + response.message(), Toast.LENGTH_SHORT).show();
