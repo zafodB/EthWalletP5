@@ -17,6 +17,7 @@ import com.zafodB.ethwalletp5.API.APIInterface;
 import com.zafodB.ethwalletp5.API.Models;
 import com.zafodB.ethwalletp5.Crypto.Hash;
 import com.zafodB.ethwalletp5.Crypto.WalletWrapper;
+import com.zafodB.ethwalletp5.FragmentChangerClass;
 import com.zafodB.ethwalletp5.R;
 
 import retrofit2.Call;
@@ -49,8 +50,8 @@ public class RestoreWalletFragment extends Fragment {
 
 
                 // TODO: Email and password validation
-                if (email.length() < 1) {
-                    System.out.println("No email provided");
+                if (email.length() == 0 || password.length() == 0) {
+                    Toast.makeText(getActivity(), "Provide your email and password", Toast.LENGTH_SHORT).show();
                 } else {
                     String emailHash = Hash.stringHash(email);
                     String emailPassHash = Hash.stringHash(email + password);
@@ -76,6 +77,15 @@ public class RestoreWalletFragment extends Fragment {
                     String encryptedWalletFile = response.body().getWalletFile();
                     WalletWrapper walletWrapper = new WalletWrapper();
                     walletWrapper.saveWalletFileFromString(getContext(), encryptedWalletFile, password,"Restored Wallet");
+
+                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+
+                    FrontPageFragment frontPageFrag = new FrontPageFragment();
+
+                    changer.ChangeFragments(frontPageFrag);
+
+                    Toast.makeText(getActivity(), "Wallet restored successfully", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(getActivity(), response.message(), Toast.LENGTH_SHORT).show();
                 }

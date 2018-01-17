@@ -28,7 +28,7 @@
             android:layout_marginTop="63dp"
             android:ems="10"
             android:inputType="textMultiLine"
-            android:text="To Address"
+            android:hint="To Address"
             tools:text="0xC589a27fCC1b1De994cEE8910c33FF74E2Dd649E" />
 
         <EditText

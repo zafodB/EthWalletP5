@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zafodB.ethwalletp5.Crypto.WalletWrapper;
 import com.zafodB.ethwalletp5.FragmentChangerClass;
@@ -54,9 +55,9 @@ public class EnterPinFragment extends Fragment {
             public void onClick(View view) {
                 String pin = enterPin.getText().toString();
                if (!verifyPin(pin)){
-                   System.out.println("Pin is wrong or there has been an error");
+                   Toast.makeText(getActivity(), "Pin is wrong!", Toast.LENGTH_SHORT).show();
                    enterPin.setText("");
-               }else {
+               } else {
                    MainActivity.setUserPin(pin);
 
                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();

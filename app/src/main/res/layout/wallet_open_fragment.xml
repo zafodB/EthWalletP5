@@ -18,30 +18,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/send_transaction_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/eth_balance_textview"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:text="Send Eth"
-            android:textAllCaps="false" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/wallet_name_textview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="36dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="91dp"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/public_key_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/wallet_name_textview"
+            android:layout_marginTop="50dp"
+            android:text="Public key" />
+
+        <TextView
+            android:id="@+id/wallet_public_key_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/public_key_label"
+            android:layout_marginTop="22dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textIsSelectable="true"
+            tools:text="myWallet" />
+
+        <TextView
+            android:id="@+id/account_balance_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/wallet_public_key_textview"
             android:text="Account Balance" />
 
         <TextView
             android:id="@+id/eth_balance_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView3"
+            android:layout_below="@+id/account_balance_label"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="22dp"
             android:text="TextView"
@@ -49,25 +71,23 @@
             android:textStyle="bold"
             tools:text="0.123 eth" />
 
-        <TextView
-            android:id="@+id/wallet_name_textview"
+        <Button
+            android:id="@+id/send_transaction_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/eth_balance_textview"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="22dp"
-            android:textIsSelectable="true"
-            android:text="Wallet name"
-            android:textSize="18sp"
-            tools:text="myWallet" />
+            android:layout_marginTop="30dp"
+            android:text="Send Ether"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/createBackupBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/send_transaction_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
             android:text="Create Backup"
             android:textAllCaps="false" />
     </RelativeLayout>

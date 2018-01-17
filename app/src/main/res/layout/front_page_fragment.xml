@@ -27,7 +27,7 @@
             android:layout_below="@+id/title"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="52dp"
-            android:text="Choose an existing wallet:" />
+            android:text="Choose an existing wallet" />
 
         <ListView
             android:id="@+id/list_wallets"
@@ -36,14 +36,23 @@
             android:layout_centerHorizontal="true"
             android:layout_below="@id/textView2"/>
 
-        <Button
-            android:id="@+id/create_new_wallet_btn"
+        <TextView
+            android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/list_wallets"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:text="Or create a new one!"
+            android:text="OR" />
+
+        <Button
+            android:id="@+id/create_new_wallet_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:text="Create New Wallet"
             android:textAllCaps="false" />
 
         <Button
@@ -51,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="Restore Wallet"
+            android:text="Restore Existing Wallet"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/create_new_wallet_btn"
             android:textAllCaps="false" />

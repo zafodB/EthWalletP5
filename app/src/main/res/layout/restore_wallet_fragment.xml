@@ -56,16 +56,5 @@
             android:layout_centerVertical="true"
             android:text="Restore Wallet"
             android:textAllCaps="true" />
-
-        <EditText
-            android:id="@+id/restored_wallet_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/backup_password_input"
-            android:layout_below="@+id/backup_password_input"
-            android:layout_marginTop="19dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="Create wallet name" />
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
