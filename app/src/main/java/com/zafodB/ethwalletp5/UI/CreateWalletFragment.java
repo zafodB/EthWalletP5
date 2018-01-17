@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zafodB.ethwalletp5.Crypto.AddressBook;
 import com.zafodB.ethwalletp5.Crypto.WalletWrapper;
@@ -35,15 +36,20 @@ public class CreateWalletFragment extends Fragment {
         createWalletButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String newWalletName = walletNameInput.getText().toString();
 
-                KeyPair myKeyPair = AddressBook.generateAddressPair();
+                if (newWalletName.length() > 0) {
+                    KeyPair myKeyPair = AddressBook.generateAddressPair();
 
-                WalletWrapper walletWrapper = new WalletWrapper();
+                    WalletWrapper walletWrapper = new WalletWrapper();
 
-                walletWrapper.createWallet(walletNameInput.getText().toString(), myKeyPair, getContext());
+                    walletWrapper.createWallet(walletNameInput.getText().toString(), myKeyPair, getContext());
 
-                FragmentManager fm = getFragmentManager();
-                fm.popBackStack();
+                    FragmentManager fm = getFragmentManager();
+                    fm.popBackStack();
+                } else {
+                    Toast.makeText(getActivity(), "Please enter new wallet name", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

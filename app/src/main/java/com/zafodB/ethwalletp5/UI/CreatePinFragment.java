@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zafodB.ethwalletp5.FragmentChangerClass;
 import com.zafodB.ethwalletp5.MainActivity;
@@ -47,21 +48,21 @@ public class CreatePinFragment extends Fragment{
                 String inputPin = createPin.getText().toString();
 
                 if (inputPin.length() != 6){
-                    System.out.println("Pin is too short!");
-//                    TODO Handle wrong PIN size
-                }else if (!inputPin.equals(confirmPin.getText().toString())){
-                    System.out.println("Pins don't match!");
+                    Toast.makeText(getActivity(), "Pin must be length of 6!", Toast.LENGTH_SHORT).show();
+                } else if (!inputPin.equals(confirmPin.getText().toString())){
+                    Toast.makeText(getActivity(), "Pins don't match!", Toast.LENGTH_SHORT).show();
                 } else {
                     pin = inputPin;
                     boolean success = writePinToFile(pin);
-                    System.out.println("Saving pin has been successful: " + success);
 
-                    FrontPageFragment frontPageFrag = new FrontPageFragment();
+                    if (success) {
+                        FrontPageFragment frontPageFrag = new FrontPageFragment();
 
-                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-                    changer.ChangeFragments(frontPageFrag);
+                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                        changer.ChangeFragments(frontPageFrag);
 
-                    MainActivity.setUserPin(pin);
+                        MainActivity.setUserPin(pin);
+                    }
                 }
             }
         });
@@ -85,7 +86,8 @@ public class CreatePinFragment extends Fragment{
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-//            TODO Handle UI
+            Toast.makeText(getActivity(), "Pin could not be created - " + e.getMessage(), Toast.LENGTH_SHORT).show();
+
             return false;
         }
 
