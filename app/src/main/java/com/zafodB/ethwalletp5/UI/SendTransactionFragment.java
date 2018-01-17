@@ -1,7 +1,6 @@
 package com.zafodB.ethwalletp5.UI;
 
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
