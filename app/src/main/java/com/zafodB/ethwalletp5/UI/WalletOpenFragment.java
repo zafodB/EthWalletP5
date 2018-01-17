@@ -58,7 +58,8 @@ public class WalletOpenFragment extends Fragment {
         WalletWrapper walletWrapper = new WalletWrapper();
         String publicKey = walletWrapper.getWalletFilename(getContext(), walletName);
 
-        walletNameText.setText("0x" + publicKey);
+        TextView publicKeyText = view.findViewById(R.id.wallet_public_key_textview);
+        publicKeyText.setText("0x" + publicKey);
         walletBalance.setText(balanceToString(web3jWrapper.getBallance(publicKey)));
 
         Button sendTransactionBtn = view.findViewById(R.id.send_transaction_button);

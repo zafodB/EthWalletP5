@@ -57,12 +57,6 @@ public class FrontPageFragment extends Fragment {
             walletsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getContext(), adapterView.getItemAtPosition(i).toString(), Toast.LENGTH_SHORT).show();
-
-                    WalletWrapper walletWrapper = new WalletWrapper();
-
-
-                    Toast.makeText(getContext(), walletWrapper.getWalletFilename(getContext(), wallets.get(i)), Toast.LENGTH_SHORT).show();
 
                     Bundle args = new Bundle();
                     args.putString("name", wallets.get(i));
