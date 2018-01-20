@@ -64,16 +64,14 @@ public class CreateBackupFragment extends Fragment {
 
                     String pin = MainActivity.getUserPin();
 
-                    String tempWalletName = walletWrapper.reencryptWallet(getContext(), walletName, pin, password);
+                    String tempWalletName = walletWrapper.reencryptWallet(getContext(), walletName, pin, password, true);
                     String walletFileAsString = walletWrapper.getWalletFileAsString(getContext(), tempWalletName);
-                    File tempFile = new File(getContext().getFilesDir().getPath() + "/" +tempWalletName);
+                    File tempFile = new File(getContext().getCacheDir().getPath() + "/" +tempWalletName);
                     System.out.println("File deletion was successfull: " + tempFile.delete());
 
                     String emailHash = Hash.stringHash(email);
                     String emailPassHash = Hash.stringHash(email + password);
                     sendBackup(emailHash, emailPassHash, walletFileAsString);
-
-
                 }
             }
         });

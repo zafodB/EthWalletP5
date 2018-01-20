@@ -1,7 +1,9 @@
 package com.zafodB.ethwalletp5.UI;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zafodB.ethwalletp5.Crypto.WalletWrapper;
 import com.zafodB.ethwalletp5.FragmentChangerClass;
 import com.zafodB.ethwalletp5.MainActivity;
 import com.zafodB.ethwalletp5.R;
@@ -53,16 +56,37 @@ public class CreatePinFragment extends Fragment{
                     Toast.makeText(getActivity(), "Pins don't match!", Toast.LENGTH_SHORT).show();
                 } else {
                     pin = inputPin;
-                    boolean success = writePinToFile(pin);
 
-                    if (success) {
-                        FrontPageFragment frontPageFrag = new FrontPageFragment();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage("Creating new PIN will delete previous wallets on device. Do you want to continue?")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
 
-                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-                        changer.ChangeFragments(frontPageFrag);
+                                    WalletWrapper ww = new WalletWrapper();
+                                    int walletsDeleted = ww.deleteAllWallets(getContext());
 
-                        MainActivity.setUserPin(pin);
-                    }
+                                    boolean success = writePinToFile(pin);
+
+                                    if (success) {
+                                        FrontPageFragment frontPageFrag = new FrontPageFragment();
+
+                                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                                        changer.ChangeFragments(frontPageFrag);
+
+                                        MainActivity.setUserPin(pin);
+                                    }
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+
+
                 }
             }
         });

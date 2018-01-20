@@ -79,9 +79,7 @@ public class RestoreWalletFragment extends Fragment {
                     walletWrapper.saveWalletFileFromString(getContext(), encryptedWalletFile, password,"Restored Wallet");
 
                     FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-
                     FrontPageFragment frontPageFrag = new FrontPageFragment();
-
                     changer.ChangeFragments(frontPageFrag);
 
                     Toast.makeText(getActivity(), "Wallet restored successfully", Toast.LENGTH_SHORT).show();
