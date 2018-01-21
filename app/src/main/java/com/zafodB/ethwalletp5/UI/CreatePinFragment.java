@@ -57,16 +57,37 @@ public class CreatePinFragment extends Fragment{
                 } else {
                     pin = inputPin;
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setMessage("Creating new PIN will delete previous wallets on device. Do you want to continue?")
-                            .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//                    builder.setMessage("Creating new PIN will delete previous wallets on device. Do you want to continue?")
+//                            .setCancelable(false)
+//                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//
+//                                    WalletWrapper ww = new WalletWrapper();
+//                                    int walletsDeleted = ww.deleteAllWallets(getContext());
+//
+//                                    boolean success = writePinToFile(pin);
+//
+//                                    if (success) {
+//                                        FrontPageFragment frontPageFrag = new FrontPageFragment();
+//
+//                                        FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+//                                        changer.ChangeFragments(frontPageFrag);
+//
+//                                        MainActivity.setUserPin(pin);
+//                                    }
+//                                }
+//                            })
+//                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    dialog.cancel();
+//                                }
+//                            });
+//                    AlertDialog alert = builder.create();
+//                    alert.show();
 
-                                    WalletWrapper ww = new WalletWrapper();
-                                    int walletsDeleted = ww.deleteAllWallets(getContext());
 
-                                    boolean success = writePinToFile(pin);
+                    boolean success = writePinToFile(pin);
 
                                     if (success) {
                                         FrontPageFragment frontPageFrag = new FrontPageFragment();
@@ -76,16 +97,6 @@ public class CreatePinFragment extends Fragment{
 
                                         MainActivity.setUserPin(pin);
                                     }
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-
 
                 }
             }

@@ -16,6 +16,7 @@ import com.zafodB.ethwalletp5.MainActivity;
 import com.zafodB.ethwalletp5.R;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,42 +38,48 @@ public class EnterPinFragment extends Fragment {
         Button createPinBtn = view.findViewById(R.id.create_pin_btn);
         Button singInBtn = view.findViewById(R.id.sign_in_button);
 
-        createPinBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CreatePinFragment createPinFrag = new CreatePinFragment();
+        if (walletsExist()) {
+            createPinBtn.setVisibility(View.INVISIBLE);
+        } else {
 
-                WalletWrapper walletWrapper = new WalletWrapper();
-                System.out.println(walletWrapper.getWalletFileAsString(getContext(), "normal"));
+            createPinBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CreatePinFragment createPinFrag = new CreatePinFragment();
 
-                FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
-                changer.ChangeFragments(createPinFrag);
-            }
-        });
+                    WalletWrapper walletWrapper = new WalletWrapper();
+                    System.out.println(walletWrapper.getWalletFileAsString(getContext(), "normal"));
+
+                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                    changer.ChangeFragments(createPinFrag);
+                }
+            });
+        }
+
 
         singInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String pin = enterPin.getText().toString();
-               if (!verifyPin(pin)){
-                   Toast.makeText(getActivity(), "Pin is wrong!", Toast.LENGTH_SHORT).show();
-                   enterPin.setText("");
-               } else {
-                   MainActivity.setUserPin(pin);
+                if (!verifyPin(pin)) {
+                    Toast.makeText(getActivity(), "Pin is wrong!", Toast.LENGTH_SHORT).show();
+                    enterPin.setText("");
+                } else {
+                    MainActivity.setUserPin(pin);
 
-                   FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
+                    FragmentChangerClass.FragmentChanger changer = (FragmentChangerClass.FragmentChanger) getActivity();
 
-                   FrontPageFragment frontPageFrag = new FrontPageFragment();
+                    FrontPageFragment frontPageFrag = new FrontPageFragment();
 
-                   changer.ChangeFragments(frontPageFrag);
-               }
+                    changer.ChangeFragments(frontPageFrag);
+                }
             }
         });
 
         return view;
     }
 
-    private boolean verifyPin(String input){
+    private boolean verifyPin(String input) {
         try {
             InputStream in = getContext().openFileInput("pinStorage");
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -84,11 +91,18 @@ public class EnterPinFragment extends Fragment {
             reader.close();
             return pin.equals(input);
 
-        } catch (IOException  e) {
+        } catch (IOException e) {
             e.printStackTrace();
 //            TODO Handle UI
             return false;
         }
 
+    }
+
+    boolean walletsExist() {
+
+        File walletFile = new File(getContext().getFilesDir().getAbsolutePath() + "/" + "pinStorage");
+
+        return walletFile.exists();
     }
 }
